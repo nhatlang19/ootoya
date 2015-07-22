@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.vn.vietatech.api.PosMenuAPI;
+import com.vn.vietatech.api.SaleCodeAPI;
 import com.vn.vietatech.api.TableAPI;
 import com.vn.vietatech.api.UserApi;
 import com.vn.vietatech.model.Cashier;
@@ -56,6 +57,7 @@ public class LoginAsync extends AsyncTask<String, String, Cashier> {
 				UserUtil.write(cashier, mContext);
 				new TableAPI(mContext.getApplicationContext()).execute();
 				new PosMenuAPI(mContext.getApplicationContext()).execute();
+				new SaleCodeAPI(mContext.getApplicationContext()).execute();
 
 				MainActivity act = (MainActivity) mContext;
 				Intent myIntent = new Intent(mContext, TableActivity.class);

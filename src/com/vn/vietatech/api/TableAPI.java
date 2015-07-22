@@ -82,6 +82,7 @@ public class TableAPI extends AbstractAPI {
 				table.setOpenBy(tableObject.getProperty("OpenBy").toString());
 				table.setDescription2(tableObject.getProperty("Description2")
 						.toString());
+				table.setSalesCode(tableObject.getProperty("SalesCode").toString());
 				table.setSection(section);
 				tables.add(table);
 			}

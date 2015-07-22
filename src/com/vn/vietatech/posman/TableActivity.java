@@ -6,6 +6,7 @@ import com.vn.vietatech.api.SectionAPI;
 import com.vn.vietatech.api.TableAPI;
 import com.vn.vietatech.model.Cashier;
 import com.vn.vietatech.model.Order;
+import com.vn.vietatech.model.SalesCode;
 import com.vn.vietatech.model.Section;
 import com.vn.vietatech.model.Table;
 import com.vn.vietatech.posman.adapter.SectionAdapter;
@@ -34,6 +35,7 @@ public class TableActivity extends ActionBarActivity implements
 	public static final int REFRESH_TABLE = 1;
 
 	public static final String KEY_SELECTED_TABLE = "selectedTable";
+	public static final String KEY_SELECTED_SCODE = "selectedSalesCode";
 	public static final String KEY_REFRESH_CODE = "refresh_code";
 	public static final String KEY_STATUS = "statusTable";
 	public static final String KEY_TABLE_GROUP = "tableGroup";
@@ -42,6 +44,7 @@ public class TableActivity extends ActionBarActivity implements
 	public static final String KEY_EXT = "ext";
 	public static final String KEY_POS = "pos";
 	public static final String KEY_PER = "per";
+	public static final String KEY_SCODE = "salesCode";
 	
 
 	private static final int TIMER_LIMIT = 10000; // 10 seconds
@@ -165,23 +168,26 @@ public class TableActivity extends ActionBarActivity implements
 	 * @param selectedTable
 	 * @param isAddNew
 	 */
-	public void startNewActivity(Table selectedTable, Table tableGroup) {
+	public void startNewActivity(Table selectedTable, Table tableGroup, SalesCode salesCode) {
 		Intent myIntent = new Intent(this, POSMenuActivity.class);
 		myIntent.putExtra(KEY_SELECTED_TABLE, selectedTable.getTableNo());
+		myIntent.putExtra(KEY_SELECTED_SCODE, salesCode.getCode());
 		myIntent.putExtra(KEY_TABLE_GROUP, tableGroup.getTableNo());
 		myIntent.putExtra(KEY_STATUS, Table.ACTION_ADD);
 		startActivityForResult(myIntent, REFRESH_TABLE);
 	}
 	
-	public void startEditActivity(Table selectedTable, Table tableGroup, Order order) {
+	public void startEditActivity(Table selectedTable, Table tableGroup, Order order, SalesCode salesCode) {
 		Intent myIntent = new Intent(this, POSMenuActivity.class);
 		myIntent.putExtra(KEY_SELECTED_TABLE, selectedTable.getTableNo());
 		myIntent.putExtra(KEY_TABLE_GROUP, tableGroup.getTableNo());
+		myIntent.putExtra(KEY_SELECTED_SCODE, salesCode.getCode());
 		myIntent.putExtra(KEY_STATUS, Table.ACTION_EDIT);
 		myIntent.putExtra(KEY_ORD, order.getOrd());
 		myIntent.putExtra(KEY_EXT, order.getExt());
 		myIntent.putExtra(KEY_POS, order.getPos());
 		myIntent.putExtra(KEY_PER, order.getPer());
+		myIntent.putExtra(KEY_SCODE, order.getSalesCode());
 		
 		startActivityForResult(myIntent, REFRESH_TABLE);
 	}

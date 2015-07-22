@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.vn.vietatech.model.Cashier;
 import com.vn.vietatech.model.PosMenu;
+import com.vn.vietatech.model.SalesCode;
 import com.vn.vietatech.model.Section;
 import com.vn.vietatech.model.Table;
 
@@ -14,6 +15,7 @@ public class MyApplication extends Application {
 	private Cashier _cashier = null;
 	private ArrayList<Table> _tables = null;
 	private ArrayList<PosMenu> _listPosMenu = null;
+	private ArrayList<SalesCode> _salesCode = null;
 	
 	public ArrayList<PosMenu> getListPosMenu() {
 		return _listPosMenu;
@@ -46,6 +48,15 @@ public class MyApplication extends Application {
 	public void setTables(ArrayList<Table> tables) {
 		tables.add(0, new Table());
 		this._tables = tables;
+	}
+
+	public ArrayList<SalesCode> getSalesCode() {
+		return _salesCode;
+	}
+
+	public void setSalesCode(ArrayList<SalesCode> _salesCode) {
+		_salesCode.add(0, new SalesCode());
+		this._salesCode = _salesCode;
 	}
 
 }

@@ -75,6 +75,7 @@ public class POSMenuActivity extends ActionBarActivity {
 	SubMenuAdapter subMnuAdapter = null;
 	String tableNo;
 	String tableStatus;
+	String selectedSalesCode;
 	String tableGroupNo = "";
 	Spinner spinRemark;
 	EditText txtRemark;
@@ -82,6 +83,7 @@ public class POSMenuActivity extends ActionBarActivity {
 	String currentExtNo = "0";
 	String currentPosNo = "0";
 	String currentPerNo = "0";
+	String currentSalesCode = "";
 	String splited = "0";
 	Spinner spinTableListMT;
 	Remark selectedRemark;
@@ -101,7 +103,10 @@ public class POSMenuActivity extends ActionBarActivity {
 		try {
 			boolean result = new AbstractAPI(this).isKitFolderExist();
 			if (!result) {
-				Utils.showAlert(this, "Can not find kit folder");
+				result = new AbstractAPI(this).createKitFolder();
+				if(! result) {
+					Utils.showAlert(this, "Can not create kit folder");
+				}
 			}
 			loadItems();
 
@@ -129,6 +134,8 @@ public class POSMenuActivity extends ActionBarActivity {
 				TableActivity.KEY_STATUS);
 		tableGroupNo = getIntent().getExtras().getString(
 				TableActivity.KEY_TABLE_GROUP);
+		selectedSalesCode = getIntent().getExtras().getString(
+				TableActivity.KEY_SELECTED_SCODE);
 
 		horizontalView = (HorizontalScrollView) findViewById(R.id.horizontalView);
 		parentView = (LinearLayout) findViewById(R.id.parentView);
@@ -563,6 +570,7 @@ public class POSMenuActivity extends ActionBarActivity {
 		currentExtNo = getIntent().getExtras().getString(TableActivity.KEY_EXT);
 		currentPosNo = getIntent().getExtras().getString(TableActivity.KEY_POS);
 		currentPerNo = getIntent().getExtras().getString(TableActivity.KEY_PER);
+		currentSalesCode = getIntent().getExtras().getString(TableActivity.KEY_SCODE);
 		
 		ArrayList<Item> items = new OrderAPI(context).getEditOrderNumberByPOS(
 				currentOrderNo, currentPosNo, currentExtNo);
@@ -600,7 +608,7 @@ public class POSMenuActivity extends ActionBarActivity {
 			String POSBizDate = Utils.getCurrentDate("yyyyMMdd");
 			String currTableGroup = tableGroupNo;
 			String noOfPerson = txtPeople.getText().toString();
-			String salesCode = SettingUtil.read(context).getSalesCode();
+			String salesCode = tableStatus.equals(Table.ACTION_EDIT) ? currentSalesCode : selectedSalesCode;
 			String cashierID = globalVariable.getCashier().getId();
 			
 			return new PosMenuAPI(context).sendOrder(dataTableString, sendNewOrder, reSendOrder

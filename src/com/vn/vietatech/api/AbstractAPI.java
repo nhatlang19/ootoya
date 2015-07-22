@@ -28,6 +28,7 @@ public class AbstractAPI extends AsyncTask<String, String, String> {
 	protected static String METHOD_GET_SUB_MENU = "GetSubMenu";
 	protected static String METHOD_IS_SQL_CONNECTED = "IsSQLConnected";
 	protected static String METHOD_IS_KIT_EXITS = "IsKitFolderExist";
+	protected static String METHOD_CREATE_KIT_FOLDER = "CreateKITFolder";
 	protected static String METHOD_GET_ITEM = "GetItemBySubMenuSelected";
 	protected static String METHOD_GET_ORDER_EDIT_TYPE = "GetOrderEditType";
 	protected static String METHOD_GET_NEW_ORDER_BY_POS = "GetNewOrderNumberByPOS";
@@ -38,6 +39,7 @@ public class AbstractAPI extends AsyncTask<String, String, String> {
 	protected static String METHOD_GROUP_TABLE = "GroupTable";
 	protected static String METHOD_SEND_ORDER = "SendOrder";
 	protected static String METHOD_GET_TIME_SERVER = "GetTimeServer";
+	protected static String METHOD_GET_SALES_CODE = "GetSalesCode";
 	
 	protected static String NAMESPACE;
 	protected static String SERVER_IP;
@@ -59,7 +61,7 @@ public class AbstractAPI extends AsyncTask<String, String, String> {
 		
 		SERVER_IP = SettingUtil.read(mContext).getServerIP();
 		NAMESPACE = "http://tempuri.org/";
-		URL = "http://" + SERVER_IP + "/V6BOService/V6BOService.asmx";
+		URL = "http://" + SERVER_IP + "/V6BOServiceCombo/V6BOService.asmx";
 
 		if (!Utils.isNetworkAvailable(context)) {
 			throw new Exception("No Internet Connection");
@@ -125,16 +127,45 @@ public class AbstractAPI extends AsyncTask<String, String, String> {
 		return null;
 	}
 	
+	/**
+	 * check connect SQL
+	 * 
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean IsSQLConnected() throws Exception {
 		setMethod(METHOD_IS_SQL_CONNECTED);
 		return Boolean.parseBoolean(callService().toString());
 	}
 	
+	/**
+	 * check exists KIT folder
+	 * 
+	 * @return boolean
+	 * @throws Exception
+	 */
 	public boolean isKitFolderExist() throws Exception {
 		setMethod(METHOD_IS_KIT_EXITS);
 		return Boolean.parseBoolean(callService().toString());
 	}
 	
+	/**
+	 * create KIT folder
+	 * 
+	 * @return boolean
+	 * @throws Exception
+	 */
+	public boolean createKitFolder() throws Exception {
+		setMethod(METHOD_CREATE_KIT_FOLDER);
+		return Boolean.parseBoolean(callService().toString());
+	}
+	
+	/**
+	 * get time from server
+	 * 
+	 * @return String
+	 * @throws Exception
+	 */
 	public String getTimeServer() throws Exception {
 		setMethod(METHOD_GET_TIME_SERVER);
 		return callService().toString();

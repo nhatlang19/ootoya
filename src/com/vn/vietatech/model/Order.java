@@ -2,11 +2,11 @@ package com.vn.vietatech.model;
 
 public class Order {
 	private String ordExt;
-	private String posPer;
+	private String posPerScode;
 	
 	public Order() {
 		setOrdExt("0_0");
-		setPosPer("0_0");
+		setPosPerScode("0_0_0");
 	}
 
 	public String getOrd() {
@@ -23,15 +23,18 @@ public class Order {
 
 
 	public String getPos() {
-		String[] list = getPosPer().split("_");
+		String[] list = getPosPerScode().split("_");
 		return list[0];
 	}
 
 	public String getPer() {
-		String[] list = getPosPer().split("_");
-		if(list.length < 2) 
-			return "0";
+		String[] list = getPosPerScode().split("_");
 		return list[1];
+	}
+	
+	public String getSalesCode() {
+		String[] list = getPosPerScode().split("_");
+		return list[2];
 	}
 
 	public String getOrdExt() {
@@ -42,12 +45,12 @@ public class Order {
 		this.ordExt = ordExt;
 	}
 
-	public String getPosPer() {
-		return posPer;
+	public String getPosPerScode() {
+		return posPerScode;
 	}
 
-	public void setPosPer(String posPer) {
-		this.posPer = posPer;
+	public void setPosPerScode(String posPerScode) {
+		this.posPerScode = posPerScode;
 	}
 
 

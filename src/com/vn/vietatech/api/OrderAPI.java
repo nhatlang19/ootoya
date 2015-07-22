@@ -91,7 +91,7 @@ public class OrderAPI extends AbstractAPI {
 				
 				Order order = new Order();
 				order.setOrdExt(tableObject.getProperty("OrdExt").toString());
-				order.setPosPer(tableObject.getProperty("PosPer").toString());
+				order.setPosPerScode(tableObject.getProperty("PosPerScode").toString());
 				
 				orders.add(order);
 			}

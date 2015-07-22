@@ -9,6 +9,7 @@ public class Table {
 	private String description2;
 	private String action;
 	private Section section;
+	private String salesCode;
 	
 	public static String ACTION_ADD = "add";
 	public static String ACTION_EDIT = "edit";
@@ -23,6 +24,7 @@ public class Table {
 		description2 = "";
 		section = new Section();
 		action = ACTION_ADD;
+		salesCode = "";
 	}
 
 	public void setTableNo(String tableNo) {
@@ -97,5 +99,13 @@ public class Table {
 
 	public void setSection(Section section) {
 		this.section = section;
+	}
+
+	public String getSalesCode() {
+		return salesCode.trim();
+	}
+
+	public void setSalesCode(String salesCode) {
+		this.salesCode = salesCode;
 	}
 }

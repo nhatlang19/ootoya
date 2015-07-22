@@ -9,6 +9,7 @@ import com.vn.vietatech.model.Item;
 import com.vn.vietatech.model.PosMenu;
 import com.vn.vietatech.model.SubMenu;
 import com.vn.vietatech.posman.POSMenuActivity;
+import com.vn.vietatech.posman.dialog.DialogCombo;
 import com.vn.vietatech.utils.SettingUtil;
 import com.vn.vietatech.utils.Utils;
 
@@ -98,10 +99,14 @@ public class SubMenuAdapter extends BaseAdapter {
 				}
 				
 				POSMenuActivity activity = (POSMenuActivity) mContext;
-				activity.addItem(subMenu);
+				if(subMenu.getItem().getItemType().equals("C")) {
+					// show dialog combo
+					new DialogCombo(mContext, subMenu.getItem()).show();
+				} else {
+					activity.addItem(subMenu);
+				}
 				
 				clearAllButton();
-				
 				GradientDrawable drawable = (GradientDrawable) btn.getBackground();
 				drawable.setStroke(10, Color.BLACK);
 				btn.setBackgroundDrawable(drawable);

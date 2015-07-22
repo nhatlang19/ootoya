@@ -1694,13 +1694,14 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f09002e;
         public static final int action_mode_bar_stub=0x7f09002d;
         public static final int action_mode_close_button=0x7f090020;
-        public static final int action_settings=0x7f09007e;
+        public static final int action_settings=0x7f090082;
         public static final int activity_chooser_view_content=0x7f090021;
         public static final int always=0x7f090014;
         public static final int beginning=0x7f09001b;
-        public static final int btnCancel=0x7f09007c;
+        public static final int btnCancel=0x7f090080;
         public static final int btnCancelMT=0x7f09005f;
         public static final int btnClose=0x7f090072;
+        public static final int btnCloseCombo=0x7f090077;
         public static final int btnCloseSetting=0x7f09006d;
         public static final int btnExit=0x7f090047;
         public static final int btnIPlus=0x7f09004f;
@@ -1709,12 +1710,12 @@ containing a value of this type.
         public static final int btnIx=0x7f090051;
         public static final int btnLogin=0x7f090046;
         public static final int btnMT=0x7f090052;
-        public static final int btnOk=0x7f09007d;
+        public static final int btnOk=0x7f090081;
         public static final int btnOkMT=0x7f09005e;
         public static final int btnRefresh=0x7f090071;
-        public static final int btnSave=0x7f09007b;
+        public static final int btnSave=0x7f09007f;
         public static final int btnSaveConfig=0x7f09006e;
-        public static final int btnSelectOrder=0x7f090077;
+        public static final int btnSelectOrder=0x7f090079;
         public static final int btnSend=0x7f090053;
         public static final int btnTestConnect=0x7f09006f;
         public static final int btnX=0x7f090056;
@@ -1739,6 +1740,7 @@ containing a value of this type.
         public static final int image=0x7f090023;
         public static final int imageView1=0x7f090041;
         public static final int lbTitle=0x7f090042;
+        public static final int lbTitleCombo=0x7f090076;
         public static final int linearLayout1=0x7f090040;
         public static final int listMode=0x7f09000a;
         public static final int list_item=0x7f090025;
@@ -1747,7 +1749,7 @@ containing a value of this type.
         public static final int never=0x7f090017;
         public static final int none=0x7f09000f;
         public static final int normal=0x7f09000b;
-        public static final int npPeople=0x7f090078;
+        public static final int npPeople=0x7f09007a;
         public static final int parentView=0x7f09004b;
         public static final int progress_circular=0x7f090007;
         public static final int progress_horizontal=0x7f090008;
@@ -1767,9 +1769,10 @@ containing a value of this type.
         public static final int showCustom=0x7f090010;
         public static final int showHome=0x7f090011;
         public static final int showTitle=0x7f090012;
-        public static final int spinGroup=0x7f090079;
-        public static final int spinOrders=0x7f090076;
+        public static final int spinGroup=0x7f09007b;
+        public static final int spinOrders=0x7f090078;
         public static final int spinRemark=0x7f090058;
+        public static final int spinSalesCode=0x7f09007d;
         public static final int spinSession=0x7f090070;
         public static final int spinTableListMT=0x7f09005d;
         public static final int split_action_bar=0x7f090004;
@@ -1778,7 +1781,8 @@ containing a value of this type.
         public static final int tViewVat=0x7f09006b;
         public static final int tabMode=0x7f09000c;
         public static final int tableRow1=0x7f090075;
-        public static final int tableRow2=0x7f09007a;
+        public static final int tableRow2=0x7f09007e;
+        public static final int tableRow3=0x7f09007c;
         public static final int textView1=0x7f090061;
         public static final int textView2=0x7f090043;
         public static final int textView3=0x7f090048;
@@ -1858,10 +1862,11 @@ containing a value of this type.
         public static final int activity_posmenu=0x7f030017;
         public static final int activity_setting=0x7f030018;
         public static final int activity_table=0x7f030019;
-        public static final int n_bill=0x7f03001a;
-        public static final int number_picker_dialog=0x7f03001b;
-        public static final int order_dialog=0x7f03001c;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001d;
+        public static final int combo=0x7f03001a;
+        public static final int n_bill=0x7f03001b;
+        public static final int number_picker_dialog=0x7f03001c;
+        public static final int order_dialog=0x7f03001d;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001e;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
