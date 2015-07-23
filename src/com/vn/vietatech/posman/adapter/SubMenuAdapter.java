@@ -9,7 +9,6 @@ import com.vn.vietatech.model.Item;
 import com.vn.vietatech.model.PosMenu;
 import com.vn.vietatech.model.SubMenu;
 import com.vn.vietatech.posman.POSMenuActivity;
-import com.vn.vietatech.posman.dialog.DialogCombo;
 import com.vn.vietatech.utils.SettingUtil;
 import com.vn.vietatech.utils.Utils;
 
@@ -90,26 +89,25 @@ public class SubMenuAdapter extends BaseAdapter {
 		btn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				POSMenuActivity activity = (POSMenuActivity) mContext;
+				
 				try {
-					Item item = new ItemAPI(mContext).getItemBySubMenuSelected(subMenu.getDefaultValue());
-					subMenu.setItem(item);
+					Item item = new ItemAPI(mContext).getItemBySubMenuSelected(subMenu.getDefaultValue(), activity.getPriceLevel(), "1");
+					String comboPack = item.getComboPack();
+					item.setItemType(comboPack);
+					if(comboPack.equals("N") || comboPack.equals("R")) {
+						subMenu.setItem(item);
+						activity.addItem(subMenu);
+					} else if(comboPack.equals("C")) {
+						subMenu.setItem(item);
+						activity.onOpenDialogCombo(3);
+					}
 				} catch (Exception e) {
 					Toast.makeText(mContext, e.getMessage(),
 							Toast.LENGTH_LONG).show();
 				}
 				
-				POSMenuActivity activity = (POSMenuActivity) mContext;
-				if(subMenu.getItem().getItemType().equals("C")) {
-					// show dialog combo
-					new DialogCombo(mContext, subMenu.getItem()).show();
-				} else {
-					activity.addItem(subMenu);
-				}
-				
-				clearAllButton();
-				GradientDrawable drawable = (GradientDrawable) btn.getBackground();
-				drawable.setStroke(10, Color.BLACK);
-				btn.setBackgroundDrawable(drawable);
+				setColorButton(btn);
 			}
 		});
 		listButtonMenu.add(btn);
@@ -117,12 +115,16 @@ public class SubMenuAdapter extends BaseAdapter {
 		return btn;
 	}
 	
-	private void clearAllButton() {
+	private void setColorButton(Button btn) {
 	    for(Button button: listButtonMenu) {
 	    	GradientDrawable drawable = (GradientDrawable) button.getBackground();
 		    drawable.setStroke(2, Color.BLACK);
 		    button.setBackgroundDrawable(drawable);
 		}
+	    
+	    GradientDrawable drawable = (GradientDrawable) btn.getBackground();
+		drawable.setStroke(10, Color.BLACK);
+		btn.setBackgroundDrawable(drawable);
 	}
 
 }

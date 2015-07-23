@@ -39,11 +39,11 @@ public class ItemRow extends TableRow {
 		TextView txtName = createColumn(currentItem.getItemName(), tblHeader, "ItemName");
 		this.addView(txtName);
 		// price
-		TextView txtPrice = createColumn(currentItem.getPrice(), tblHeader, "Price");
+		TextView txtPrice = createColumn(currentItem.getOrgPrice(), tblHeader, "Price");
 		this.addView(txtPrice);
 		// total
 		int total = Integer.parseInt(currentItem.getQty())
-				* Integer.parseInt(currentItem.getPrice());
+				* Integer.parseInt(currentItem.getOrgPrice());
 		currentItem.setTotal(String.valueOf(total));
 		TextView txtTotal = createColumn(currentItem.getTotal(), tblHeader, "Total");
 		this.addView(txtTotal);
@@ -63,7 +63,7 @@ public class ItemRow extends TableRow {
 		TextView txtMasterCode = createColumn(currentItem.getMasterCode(), tblHeader, "MasterCode");
 		this.addView(txtMasterCode);
 		// ComboClass
-		TextView txtComboClass = createColumn(currentItem.getComboClass(), tblHeader, "ComboClass");
+		TextView txtComboClass = createColumn(currentItem.getComboPack(), tblHeader, "ComboClass");
 		this.addView(txtComboClass);
 		// Hidden
 		TextView txtHidden = createColumn(currentItem.getHidden(), tblHeader, "Hidden");

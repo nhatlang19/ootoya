@@ -36,6 +36,7 @@ public class TableActivity extends ActionBarActivity implements
 
 	public static final String KEY_SELECTED_TABLE = "selectedTable";
 	public static final String KEY_SELECTED_SCODE = "selectedSalesCode";
+	public static final String KEY_PRICE_LEVEL = "priceLevel";
 	public static final String KEY_REFRESH_CODE = "refresh_code";
 	public static final String KEY_STATUS = "statusTable";
 	public static final String KEY_TABLE_GROUP = "tableGroup";
@@ -172,6 +173,7 @@ public class TableActivity extends ActionBarActivity implements
 		Intent myIntent = new Intent(this, POSMenuActivity.class);
 		myIntent.putExtra(KEY_SELECTED_TABLE, selectedTable.getTableNo());
 		myIntent.putExtra(KEY_SELECTED_SCODE, salesCode.getCode());
+		myIntent.putExtra(KEY_PRICE_LEVEL, salesCode.getPriceLevel());
 		myIntent.putExtra(KEY_TABLE_GROUP, tableGroup.getTableNo());
 		myIntent.putExtra(KEY_STATUS, Table.ACTION_ADD);
 		startActivityForResult(myIntent, REFRESH_TABLE);
@@ -182,6 +184,7 @@ public class TableActivity extends ActionBarActivity implements
 		myIntent.putExtra(KEY_SELECTED_TABLE, selectedTable.getTableNo());
 		myIntent.putExtra(KEY_TABLE_GROUP, tableGroup.getTableNo());
 		myIntent.putExtra(KEY_SELECTED_SCODE, salesCode.getCode());
+		myIntent.putExtra(KEY_PRICE_LEVEL, salesCode.getPriceLevel());
 		myIntent.putExtra(KEY_STATUS, Table.ACTION_EDIT);
 		myIntent.putExtra(KEY_ORD, order.getOrd());
 		myIntent.putExtra(KEY_EXT, order.getExt());

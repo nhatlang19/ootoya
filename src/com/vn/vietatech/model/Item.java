@@ -8,16 +8,31 @@ public class Item {
 	private String qty;
 	private String printStatus;
 	private String itemName;
-	private String price;
+	private String orgPrice;
 	private String total;
 	private String itemType;
 	private String itemCode;
 	private String modifierInt;
 	private String masterCode;
-	private String comboClass;
+	private String comboPack;
 	private String hidden;
 	private String instruction;
+	private String segNo;
+	private String onPromotion;
 	private ArrayList<Remark> remarks;
+	private String promoCode;
+	private String promoPrice;
+	private String promoDesc;
+	private String promoClass;
+	private String startDate;
+	private String endDate;
+	private String minQty;
+	private String maxQty;
+	private String pkgQty;
+	private String pkgItems;
+	private String blanket;
+	private ArrayList<ItemCombo> itemCombo;
+
 	
 	private static final String SEPARATE = "|";
 	public static final String STATUS_OLD = "#";
@@ -29,16 +44,29 @@ public class Item {
 		splited = "0";
 		printStatus = " ";
 		itemName = " ";
-		price = "0";
+		orgPrice = "0";
+		setPromoPrice("0");
 		total = "0";
 		itemType = " ";
 		itemCode = " ";
 		modifierInt = "0";
 		masterCode = " ";
-		comboClass = " ";
+		comboPack = " ";
 		hidden = " ";
 		instruction = " ";
 		setRemarks(new ArrayList<Remark>());
+		setItemCombo(new ArrayList<ItemCombo>());
+		promoCode = "";
+		promoPrice = "";
+		promoDesc = "";
+		promoClass = "";
+		startDate = "";
+		endDate = "";
+		minQty = "";
+		maxQty = "";
+		pkgQty = "";
+		pkgItems = "";
+		blanket = "";
 	}
 	
 	public String getId() {
@@ -68,12 +96,12 @@ public class Item {
 		this.hidden = hidden;
 	}
 
-	public String getComboClass() {
-		return comboClass;
+	public String getComboPack() {
+		return comboPack.trim();
 	}
 
-	public void setComboClass(String comboClass) {
-		this.comboClass = comboClass;
+	public void setComboPack(String comboPack) {
+		this.comboPack = comboPack;
 	}
 
 	public String getMasterCode() {
@@ -116,13 +144,13 @@ public class Item {
 		this.total = total;
 	}
 
-	public String getPrice() {
-		return price;
+	public String getOrgPrice() {
+		return orgPrice;
 	}
 
-	public void setPrice(String price) {
-		float iPrice = Float.parseFloat(price);
-		this.price = String.valueOf((int)iPrice);
+	public void setOrgPrice(String orgPrice) {
+		float iorgPrice = Float.parseFloat(orgPrice);
+		this.orgPrice = String.valueOf((int)iorgPrice);
 	}
 
 	public String getItemName() {
@@ -170,13 +198,13 @@ public class Item {
 		result += qty + SEPARATE;
 		result += printStatus + SEPARATE;
 		result += itemName + SEPARATE;
-		result += price + SEPARATE;
+		result += orgPrice + SEPARATE;
 		result += total + SEPARATE;
 		result += itemType + SEPARATE;
 		result += itemCode + SEPARATE;
 		result += modifierInt + SEPARATE;
 		result += masterCode + SEPARATE;
-		result += comboClass + SEPARATE;
+		result += comboPack + SEPARATE;
 		result += hidden + SEPARATE;
 		result += instruction;
 		return result;
@@ -188,5 +216,117 @@ public class Item {
 
 	public void setSplited(String splited) {
 		this.splited = splited;
+	}
+
+	public String getPromoPrice() {
+		return promoPrice;
+	}
+
+	public void setPromoPrice(String promoPrice) {
+		this.promoPrice = promoPrice;
+	}
+
+	public String getOnPromotion() {
+		return onPromotion.trim();
+	}
+
+	public void setOnPromotion(String onPromotion) {
+		this.onPromotion = onPromotion;
+	}
+
+	public String getPromoCode() {
+		return promoCode;
+	}
+
+	public void setPromoCode(String promoCode) {
+		this.promoCode = promoCode;
+	}
+
+	public String getSegNo() {
+		return segNo;
+	}
+
+	public void setSegNo(String segNo) {
+		this.segNo = segNo;
+	}
+
+	public String getPromoDesc() {
+		return promoDesc;
+	}
+
+	public void setPromoDesc(String promoDesc) {
+		this.promoDesc = promoDesc;
+	}
+
+	public String getPromoClass() {
+		return promoClass;
+	}
+
+	public void setPromoClass(String promoClass) {
+		this.promoClass = promoClass;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getMinQty() {
+		return minQty;
+	}
+
+	public void setMinQty(String minQty) {
+		this.minQty = minQty;
+	}
+
+	public String getMaxQty() {
+		return maxQty;
+	}
+
+	public void setMaxQty(String maxQty) {
+		this.maxQty = maxQty;
+	}
+
+	public String getPkgQty() {
+		return pkgQty;
+	}
+
+	public void setPkgQty(String pkgQty) {
+		this.pkgQty = pkgQty;
+	}
+
+	public String getPkgItems() {
+		return pkgItems;
+	}
+
+	public void setPkgItems(String pkgItems) {
+		this.pkgItems = pkgItems;
+	}
+
+	public String getBlanket() {
+		return blanket;
+	}
+
+	public void setBlanket(String blanket) {
+		this.blanket = blanket;
+	}
+
+	public ArrayList<ItemCombo> getItemCombo() {
+		return itemCombo;
+	}
+
+	public void setItemCombo(ArrayList<ItemCombo> itemCombo) {
+		this.itemCombo = itemCombo;
 	}
 }

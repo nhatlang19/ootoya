@@ -53,12 +53,12 @@ public class OrderAPI extends AbstractAPI {
 				item.setSplited(tableObject.getProperty("Splited").toString());
 				item.setPrintStatus(tableObject.getProperty("Status").toString());
 				item.setItemName(tableObject.getProperty("RecptDesc").toString());
-				item.setPrice(tableObject.getProperty("OrgPrice").toString());
+				item.setOrgPrice(tableObject.getProperty("OrgPrice").toString());
 				item.setItemType(tableObject.getProperty("ItemType").toString());
 				item.setItemCode(tableObject.getProperty("ItemCode").toString());
 				item.setModifier(tableObject.getProperty("Modifier").toString());
 				item.setMasterCode(tableObject.getProperty("MasterCode").toString());
-				item.setComboClass(tableObject.getProperty("ComboClass").toString());
+				item.setComboPack(tableObject.getProperty("ComboClass").toString());
 				item.setHidden(tableObject.getProperty("Hidden").toString());
 				if(tableObject.hasProperty("Instruction")) {
 					item.setInstruction(tableObject.getProperty("Instruction").toString());

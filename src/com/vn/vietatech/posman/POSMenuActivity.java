@@ -22,9 +22,11 @@ import com.vn.vietatech.posman.adapter.TableListAdapter;
 import com.vn.vietatech.posman.dialog.DialogConfirm;
 import com.vn.vietatech.posman.view.ItemRow;
 import com.vn.vietatech.posman.view.TableOrder;
+import com.vn.vietatech.posman.view.tab.FragmentDialog;
 import com.vn.vietatech.utils.SettingUtil;
 import com.vn.vietatech.utils.Utils;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -51,7 +53,6 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ScrollView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class POSMenuActivity extends ActionBarActivity {
@@ -75,7 +76,7 @@ public class POSMenuActivity extends ActionBarActivity {
 	SubMenuAdapter subMnuAdapter = null;
 	String tableNo;
 	String tableStatus;
-	String selectedSalesCode;
+	String selectedSalesCode, priceLevel;
 	String tableGroupNo = "";
 	Spinner spinRemark;
 	EditText txtRemark;
@@ -87,6 +88,10 @@ public class POSMenuActivity extends ActionBarActivity {
 	String splited = "0";
 	Spinner spinTableListMT;
 	Remark selectedRemark;
+	
+	public String getPriceLevel() {
+		return priceLevel;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +141,9 @@ public class POSMenuActivity extends ActionBarActivity {
 				TableActivity.KEY_TABLE_GROUP);
 		selectedSalesCode = getIntent().getExtras().getString(
 				TableActivity.KEY_SELECTED_SCODE);
+		priceLevel = getIntent().getExtras().getString(
+				TableActivity.KEY_PRICE_LEVEL);
+		
 
 		horizontalView = (HorizontalScrollView) findViewById(R.id.horizontalView);
 		parentView = (LinearLayout) findViewById(R.id.parentView);
@@ -617,5 +625,11 @@ public class POSMenuActivity extends ActionBarActivity {
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
+	}
+	
+	public void onOpenDialogCombo(int tabNum) {
+		FragmentManager fm = getSupportFragmentManager();
+	    FragmentDialog overlay = new FragmentDialog(tabNum);
+	    overlay.show(fm, "FragmentDialog");
 	}
 }
