@@ -1,5 +1,8 @@
 package com.vn.vietatech.posman.view.tab;
 
+import java.util.ArrayList;
+
+import com.vn.vietatech.model.Item;
 import com.vn.vietatech.posman.R;
 
 import android.app.Dialog;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 /**
@@ -29,16 +33,23 @@ public class FragmentDialog extends DialogFragment {
 	private Button btnCloseCombo;
 	private TextView lbTitleCombo;
 	private int numberOfTab;
+	private Item item;
+	
+	private ArrayList<FragmenTab> tabs;
 	
 	public FragmentDialog() {
 		super();
 		
 		this.numberOfTab = 1;
+		this.item = new Item();
+		this.tabs = new ArrayList<FragmenTab>();
 	}
 	
-	public FragmentDialog(int tabNum) {
+	public FragmentDialog(Item item) {
 		
-		this.numberOfTab = tabNum;
+		this.numberOfTab = item.getItemCombo().size();
+		this.item = item;
+		this.tabs = new ArrayList<FragmenTab>();
 	}
 
 	// ------------------------------------------------------------------------
@@ -72,7 +83,8 @@ public class FragmentDialog extends DialogFragment {
 
 		btnCloseCombo = (Button) view.findViewById(R.id.btnCloseCombo);
 		lbTitleCombo = (TextView) view.findViewById(R.id.lbTitleCombo);
-
+		lbTitleCombo.setText(numberOfTab + " x " + item.getItemName().trim());
+		
 		registerEvents();
 		return view;
 	}
@@ -82,6 +94,12 @@ public class FragmentDialog extends DialogFragment {
 
 			@Override
 			public void onClick(View v) {
+				for (FragmenTab fragmenTab : tabs) {
+					if(fragmenTab.isValid()) {
+						
+					}
+				}
+				
 				dismiss();
 			}
 		});
@@ -102,7 +120,9 @@ public class FragmentDialog extends DialogFragment {
 
 		@Override
 		public Fragment getItem(int position) {
-			return new FragmenTab(position);
+			FragmenTab tab = new FragmenTab(position, item);
+			tabs.add(tab);
+			return tab;
 		}
 
 		@Override

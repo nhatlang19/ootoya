@@ -54,7 +54,6 @@ public class ItemAPI extends AbstractAPI {
 
 		SoapObject response = (SoapObject) this.callService(params);
 		SoapObject soapObject = (SoapObject) response.getProperty("diffgram");
-		System.out.println(soapObject);
 		Item item = new Item();
 		if (soapObject.getPropertyCount() != 0) {
 

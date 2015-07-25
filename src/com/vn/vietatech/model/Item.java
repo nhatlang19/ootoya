@@ -32,6 +32,7 @@ public class Item {
 	private String pkgItems;
 	private String blanket;
 	private ArrayList<ItemCombo> itemCombo;
+	private ArrayList<ItemModifier> itemModifiers;
 
 	
 	private static final String SEPARATE = "|";
@@ -56,6 +57,7 @@ public class Item {
 		instruction = " ";
 		setRemarks(new ArrayList<Remark>());
 		setItemCombo(new ArrayList<ItemCombo>());
+		setItemModifiers(new ArrayList<ItemModifier>());
 		promoCode = "";
 		promoPrice = "";
 		promoDesc = "";
@@ -328,5 +330,13 @@ public class Item {
 
 	public void setItemCombo(ArrayList<ItemCombo> itemCombo) {
 		this.itemCombo = itemCombo;
+	}
+
+	public ArrayList<ItemModifier> getItemModifiers() {
+		return itemModifiers;
+	}
+
+	public void setItemModifiers(ArrayList<ItemModifier> itemModifiers) {
+		this.itemModifiers = itemModifiers;
 	}
 }

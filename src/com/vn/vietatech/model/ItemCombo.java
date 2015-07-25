@@ -55,5 +55,4 @@ public class ItemCombo {
 	public void setQtyEditable(String qtyEditable) {
 		QtyEditable = qtyEditable;
 	}
-
 }

@@ -1783,6 +1783,7 @@ containing a value of this type.
         public static final int tableRow1=0x7f090073;
         public static final int tableRow2=0x7f09007e;
         public static final int tableRow3=0x7f09007c;
+        public static final int tblCombo=0x7f090077;
         public static final int textView1=0x7f090061;
         public static final int textView2=0x7f090043;
         public static final int textView3=0x7f090048;
@@ -1797,7 +1798,6 @@ containing a value of this type.
         public static final int txtRemark=0x7f090057;
         public static final int txtServerIP=0x7f090062;
         public static final int txtStoreNo=0x7f090064;
-        public static final int txtTabId=0x7f090077;
         public static final int txtUsername=0x7f090044;
         public static final int txtVAT=0x7f09006a;
         public static final int up=0x7f090001;

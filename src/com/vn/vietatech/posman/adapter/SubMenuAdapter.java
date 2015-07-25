@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.vn.vietatech.api.ItemAPI;
+import com.vn.vietatech.api.ItemComboAPI;
 import com.vn.vietatech.api.PosMenuAPI;
 import com.vn.vietatech.model.Item;
+import com.vn.vietatech.model.ItemCombo;
 import com.vn.vietatech.model.PosMenu;
 import com.vn.vietatech.model.SubMenu;
 import com.vn.vietatech.posman.POSMenuActivity;
@@ -90,17 +92,19 @@ public class SubMenuAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View view) {
 				POSMenuActivity activity = (POSMenuActivity) mContext;
-				
+				int numberClick = 3;
 				try {
-					Item item = new ItemAPI(mContext).getItemBySubMenuSelected(subMenu.getDefaultValue(), activity.getPriceLevel(), "1");
+					Item item = new ItemAPI(mContext).getItemBySubMenuSelected(subMenu.getDefaultValue(), activity.getPriceLevel(), String.valueOf(numberClick));
 					String comboPack = item.getComboPack();
 					item.setItemType(comboPack);
 					if(comboPack.equals("N") || comboPack.equals("R")) {
 						subMenu.setItem(item);
-						activity.addItem(subMenu);
+						activity.addItem(item);
 					} else if(comboPack.equals("C")) {
+						ArrayList<ItemCombo> itemComboList = new ItemComboAPI(mContext).getItemComboComboBySubMenuSelected(item.getItemCode());
+						item.setItemCombo(itemComboList);;
 						subMenu.setItem(item);
-						activity.onOpenDialogCombo(3);
+						activity.onOpenDialogCombo(item);
 					}
 				} catch (Exception e) {
 					Toast.makeText(mContext, e.getMessage(),

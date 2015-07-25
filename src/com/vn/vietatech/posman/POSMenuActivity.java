@@ -364,9 +364,9 @@ public class POSMenuActivity extends ActionBarActivity {
 		gridSubMenu.setAdapter(subMnuAdapter);
 	}
 
-	public void addItem(SubMenu selectedSubMenu) {
+	public void addItem(Item item) {
 		try {
-			if(tblOrder.createNewRow(selectedSubMenu.getItem())) {
+			if(tblOrder.createNewRow(item)) {
 				vBody.post(new Runnable() {            
 				    @Override
 				    public void run() {
@@ -375,11 +375,11 @@ public class POSMenuActivity extends ActionBarActivity {
 				});
 			} else {
 				vBody.post(new Runnable() {   
-					ItemRow item = tblOrder.getCurrentRow();
+					ItemRow itemRow = tblOrder.getCurrentRow();
 					
 				    @Override
 				    public void run() {
-				    	vBody.smoothScrollTo(0, item.getTop());  // scroll to current row            
+				    	vBody.smoothScrollTo(0, itemRow.getTop());  // scroll to current row            
 				    }
 				});
 			}
@@ -627,9 +627,9 @@ public class POSMenuActivity extends ActionBarActivity {
 		}
 	}
 	
-	public void onOpenDialogCombo(int tabNum) {
+	public void onOpenDialogCombo(Item item) {
 		FragmentManager fm = getSupportFragmentManager();
-	    FragmentDialog overlay = new FragmentDialog(tabNum);
+	    FragmentDialog overlay = new FragmentDialog(item);
 	    overlay.show(fm, "FragmentDialog");
 	}
 }
