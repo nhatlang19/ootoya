@@ -7,6 +7,7 @@ public class ItemCombo {
 	private String ModClass;
 	private String Hidden;
 	private String QtyEditable;
+	private int MaxQuantity;
 
 	public String getItemDesc() {
 		return ItemDesc;
@@ -54,5 +55,14 @@ public class ItemCombo {
 
 	public void setQtyEditable(String qtyEditable) {
 		QtyEditable = qtyEditable;
+	}
+
+	public int getMaxQuantity() {
+		return MaxQuantity;
+	}
+
+	public void setMaxQuantity(int maxQuantity) {
+		float qty = Float.parseFloat(getQuantity().trim());
+		MaxQuantity = (int) (qty * maxQuantity);
 	}
 }

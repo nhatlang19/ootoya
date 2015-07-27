@@ -39,7 +39,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="400dp" >
 
         <!-- Current + adjacent page titles... -->
 
@@ -50,6 +50,8 @@
             android:background="#33b5e5"
             android:paddingBottom="4dp"
             android:paddingTop="4dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
             android:textColor="#fff" />
     </android.support.v4.view.ViewPager>
 

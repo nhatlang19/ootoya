@@ -33,7 +33,7 @@ public class Item {
 	private String blanket;
 	private ArrayList<ItemCombo> itemCombo;
 	private ArrayList<ItemModifier> itemModifiers;
-
+	private int numberClick;
 	
 	private static final String SEPARATE = "|";
 	public static final String STATUS_OLD = "#";
@@ -69,6 +69,7 @@ public class Item {
 		pkgQty = "";
 		pkgItems = "";
 		blanket = "";
+		setNumberClick(0);
 	}
 	
 	public String getId() {
@@ -338,5 +339,13 @@ public class Item {
 
 	public void setItemModifiers(ArrayList<ItemModifier> itemModifiers) {
 		this.itemModifiers = itemModifiers;
+	}
+
+	public int getNumberClick() {
+		return numberClick;
+	}
+
+	public void setNumberClick(int numberClick) {
+		this.numberClick = numberClick;
 	}
 }

@@ -24,6 +24,7 @@ public class FragmenTab extends Fragment {
 	private int position;
 	private Item item;
 	private TableLayout tblCombo;
+	private ItemCombo itemCombo;
 
 	public FragmenTab(int position, Item item) {
 		this.position = position;
@@ -35,10 +36,12 @@ public class FragmenTab extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_tab_1, container, false);
 		tblCombo = (TableLayout) view.findViewById(R.id.tblCombo);
-		ItemCombo itemCombo = item.getItemCombo().get(position);
+		itemCombo = item.getItemCombo().get(position);
+
+		// set Max Quantity
+		itemCombo.setMaxQuantity(item.getNumberClick());
 
 		ArrayList<ItemModifier> itemModifiers = new ArrayList<ItemModifier>();
-		boolean allowEdit = itemCombo.getQtyEditable().equals("Y");
 		String modClass = itemCombo.getModClass();
 		if (modClass.trim().isEmpty()) {
 			ItemModifier child = new ItemModifier();
@@ -48,16 +51,21 @@ public class FragmenTab extends Fragment {
 			child.setModDesc(itemCombo.getItemDesc());
 			child.setUnitPrice("0");
 			tblCombo.addView(new ModifierRow(view.getContext(), child,
-					allowEdit));
+					itemCombo, true));
 
 			itemModifiers.add(child);
 		} else {
 			try {
 				itemModifiers = new ItemModifierAPI(view.getContext())
 						.getModifierByModifierItem(modClass);
+				int i = 0;
+				boolean setDefaultValue = false;
 				for (ItemModifier child : itemModifiers) {
+					setDefaultValue = (i == 0);
 					tblCombo.addView(new ModifierRow(view.getContext(), child,
-							allowEdit));
+							itemCombo, setDefaultValue));
+
+					i++;
 				}
 			} catch (Exception e) {
 				Toast.makeText(view.getContext(), e.getMessage(),
@@ -70,12 +78,26 @@ public class FragmenTab extends Fragment {
 		return view;
 	}
 
-	public boolean isValid() {
-		int count = tblCombo.getChildCount();
-		for (int i = 0; i < count; i++) {
+	public String isValid() {
+		int n = tblCombo.getChildCount();
+		int count = 0;
+		int max = itemCombo.getMaxQuantity();
+		for (int i = 0; i < n; i++) {
 			ModifierRow row = (ModifierRow) tblCombo.getChildAt(i);
-			
+			count += row.getValue();
 		}
-		return true;
+		String msg = "";
+		boolean allowEdit = itemCombo.getQtyEditable().equals("Y");
+		String tmpMsg = "Quantity Item " + (position+1) + " must be";
+		if (allowEdit) {
+			if (count > max) {
+				msg = tmpMsg + " <= " + max;
+			}
+		} else {
+			if (count != max) {
+				msg = tmpMsg + " = " + max;
+			}
+		}
+		return msg;
 	}
 }

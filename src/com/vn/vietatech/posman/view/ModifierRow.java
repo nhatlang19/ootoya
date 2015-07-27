@@ -1,5 +1,6 @@
 package com.vn.vietatech.posman.view;
 
+import com.vn.vietatech.model.ItemCombo;
 import com.vn.vietatech.model.ItemModifier;
 import com.vn.vietatech.posman.R;
 
@@ -22,15 +23,17 @@ public class ModifierRow extends TableRow {
 
 	private TextView textView;
 	private EditText editText;
-	private boolean allowEdit;
+	private ItemCombo itemCombo;
+	private boolean setDefaultValue;
 
 	public ModifierRow(Context context, ItemModifier itemModifier,
-			boolean allowEdit) {
+			ItemCombo itemCombo, boolean setDefaultValue) {
 		super(context);
 
 		this.mContext = context;
 		this.itemModifier = itemModifier;
-		this.allowEdit = allowEdit;
+		this.itemCombo = itemCombo;
+		this.setDefaultValue = setDefaultValue;
 
 		setPadding(0, 5, 0, 5);
 
@@ -54,19 +57,17 @@ public class ModifierRow extends TableRow {
 		editText.setFocusable(false);
 		editText.setBackgroundResource(R.drawable.textview_money);
 		editText.setText("0");
-		if (allowEdit) {
-			editText.setClickable(true);
-			editText.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					loadPickerDialog();
-				}
-			});
-		} else if (!itemModifier.getQuantity().trim().isEmpty()) {
-			float qty = Float.parseFloat(itemModifier.getQuantity().trim());
-			editText.setText(String.valueOf((int) qty));
+		if(setDefaultValue) {
+			editText.setText(itemCombo.getMaxQuantity() + "");
 		}
+		editText.setClickable(true);
+		editText.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				loadPickerDialog();
+			}
+		});
 		this.addView(editText);
 	}
 
@@ -83,8 +84,7 @@ public class ModifierRow extends TableRow {
 
 		final NumberPicker np = (NumberPicker) promptView
 				.findViewById(R.id.npPeople);
-		float qty = Float.parseFloat(itemModifier.getQuantity());
-		np.setMaxValue((int) qty);
+		np.setMaxValue(100);
 		np.setMinValue(0);
 		if (editText.getText().toString().length() != 0) {
 			np.setValue(Integer.parseInt(editText.getText().toString()));
@@ -109,7 +109,7 @@ public class ModifierRow extends TableRow {
 		alertD.show();
 	}
 
-	public String getValue() {
-		return editText.getText().toString();
+	public int getValue() {
+		return Integer.parseInt(editText.getText().toString());
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.vn.vietatech.model.Item;
 import com.vn.vietatech.posman.R;
+import com.vn.vietatech.utils.Utils;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -83,7 +84,7 @@ public class FragmentDialog extends DialogFragment {
 
 		btnCloseCombo = (Button) view.findViewById(R.id.btnCloseCombo);
 		lbTitleCombo = (TextView) view.findViewById(R.id.lbTitleCombo);
-		lbTitleCombo.setText(numberOfTab + " x " + item.getItemName().trim());
+		lbTitleCombo.setText(item.getNumberClick() + " x " + item.getItemName().trim());
 		
 		registerEvents();
 		return view;
@@ -94,13 +95,20 @@ public class FragmentDialog extends DialogFragment {
 
 			@Override
 			public void onClick(View v) {
+				boolean valid = true;
 				for (FragmenTab fragmenTab : tabs) {
-					if(fragmenTab.isValid()) {
-						
+					String msg = fragmenTab.isValid();
+					if(!msg.isEmpty()) {
+						Utils.showAlert(getActivity(), msg);
+						valid = false;
+						break;
 					}
 				}
 				
-				dismiss();
+				if(valid) {
+					
+					dismiss();
+				}
 			}
 		});
 	}
@@ -132,7 +140,7 @@ public class FragmentDialog extends DialogFragment {
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return "Tab " + (position + 1);
+			return "Item " + (position + 1);
 		}
 	}
 }

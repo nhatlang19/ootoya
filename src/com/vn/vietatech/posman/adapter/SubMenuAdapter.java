@@ -17,7 +17,10 @@ import com.vn.vietatech.utils.Utils;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -31,6 +34,7 @@ public class SubMenuAdapter extends BaseAdapter {
 	ArrayList<SubMenu> listSubMenu = new ArrayList<SubMenu>();
 	
 	private PosMenu selectedPOSMenu;
+	private int numberClick = 0;
 	
 	ArrayList<Button> listButtonMenu = new ArrayList<Button>();
 
@@ -88,15 +92,17 @@ public class SubMenuAdapter extends BaseAdapter {
 		btn.setText(subMenu.getDescription());
 		btn.setLines(2);
 		
-		btn.setOnClickListener(new OnClickListener() {
+		btn.setOnLongClickListener(new OnLongClickListener() {
+			
 			@Override
-			public void onClick(View view) {
+			public boolean onLongClick(View v) {
+				numberClick++;
 				POSMenuActivity activity = (POSMenuActivity) mContext;
-				int numberClick = 3;
 				try {
 					Item item = new ItemAPI(mContext).getItemBySubMenuSelected(subMenu.getDefaultValue(), activity.getPriceLevel(), String.valueOf(numberClick));
 					String comboPack = item.getComboPack();
 					item.setItemType(comboPack);
+					item.setNumberClick(numberClick);
 					if(comboPack.equals("N") || comboPack.equals("R")) {
 						subMenu.setItem(item);
 						activity.addItem(item);
@@ -112,8 +118,29 @@ public class SubMenuAdapter extends BaseAdapter {
 				}
 				
 				setColorButton(btn);
+				numberClick = 0;
+				return false;
 			}
 		});
+		
+		btn.setOnTouchListener(new OnTouchListener() {
+			long lastDuration = 0;
+			long lastDown = 0;
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				
+				if(event.getAction() == MotionEvent.ACTION_DOWN) {
+					lastDown = System.currentTimeMillis();
+		        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+		        	lastDuration = System.currentTimeMillis() - lastDown;
+		        	if(lastDuration < 200) {
+		        		numberClick++;
+		           }
+		        }
+				return false;
+			}
+		});
+		
 		listButtonMenu.add(btn);
 
 		return btn;
