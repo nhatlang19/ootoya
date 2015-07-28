@@ -5,9 +5,7 @@ import java.util.HashMap;
 
 import org.ksoap2.serialization.SoapObject;
 
-import com.vn.vietatech.model.ItemCombo;
 import com.vn.vietatech.model.ItemModifier;
-import com.vn.vietatech.model.Remark;
 
 import android.content.Context;
 
@@ -24,7 +22,7 @@ public class ItemModifierAPI extends AbstractAPI {
 		params.put("modifierItem", modifierItem);
 		SoapObject response = (SoapObject) this.callService(params);
 		SoapObject soapObject = (SoapObject) response.getProperty("diffgram");
-		System.out.println(soapObject);
+//		System.out.println(soapObject);
 		
 		ArrayList<ItemModifier> list = new ArrayList<ItemModifier>();
 		if (soapObject.getPropertyCount() != 0) {

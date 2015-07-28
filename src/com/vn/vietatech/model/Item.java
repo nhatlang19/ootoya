@@ -28,6 +28,7 @@ public class Item {
 	private String endDate;
 	private String minQty;
 	private String maxQty;
+	private String pkgPrice;
 	private String pkgQty;
 	private String pkgItems;
 	private String blanket;
@@ -58,16 +59,17 @@ public class Item {
 		setRemarks(new ArrayList<Remark>());
 		setItemCombo(new ArrayList<ItemCombo>());
 		setItemModifiers(new ArrayList<ItemModifier>());
-		promoCode = "";
-		promoPrice = "";
-		promoDesc = "";
-		promoClass = "";
+		promoCode = "0";
+		promoPrice = "0";
+		promoDesc = "0";
+		promoClass = "0";
 		startDate = "";
 		endDate = "";
 		minQty = "";
 		maxQty = "";
-		pkgQty = "";
-		pkgItems = "";
+		pkgPrice = "0";
+		pkgQty = "0";
+		pkgItems = "0";
 		blanket = "";
 		setNumberClick(0);
 	}
@@ -226,7 +228,8 @@ public class Item {
 	}
 
 	public void setPromoPrice(String promoPrice) {
-		this.promoPrice = promoPrice;
+		float ipromoPrice = Float.parseFloat(promoPrice);
+		this.promoPrice = String.valueOf((int)ipromoPrice);
 	}
 
 	public String getOnPromotion() {
@@ -347,5 +350,14 @@ public class Item {
 
 	public void setNumberClick(int numberClick) {
 		this.numberClick = numberClick;
+	}
+
+	public String getPkgPrice() {
+		return pkgPrice;
+	}
+
+	public void setPkgPrice(String pkgPrice) {
+		float ipkgPrice = Float.parseFloat(pkgPrice);
+		this.pkgPrice = String.valueOf((int)ipkgPrice);
 	}
 }

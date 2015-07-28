@@ -54,6 +54,7 @@ public class ItemAPI extends AbstractAPI {
 
 		SoapObject response = (SoapObject) this.callService(params);
 		SoapObject soapObject = (SoapObject) response.getProperty("diffgram");
+		System.out.println(soapObject);
 		Item item = new Item();
 		if (soapObject.getPropertyCount() != 0) {
 
@@ -76,6 +77,7 @@ public class ItemAPI extends AbstractAPI {
 				item.setEndDate(tableObject.getProperty("EndDate").toString());
 				item.setMinQty(tableObject.getProperty("MinQty").toString());
 				item.setMaxQty(tableObject.getProperty("MaxQty").toString());
+				item.setPkgPrice(tableObject.getProperty("PkgPrice").toString());
 				item.setPkgQty(tableObject.getProperty("PkgQty").toString());
 				item.setPkgItems(tableObject.getProperty("PkgItems").toString());
 				item.setBlanket(tableObject.getProperty("Blanket").toString());

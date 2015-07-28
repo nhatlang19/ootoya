@@ -47,7 +47,7 @@ public class FragmenTab extends Fragment {
 			ItemModifier child = new ItemModifier();
 			child.setItemCode(itemCombo.getComboItem());
 			child.setQuantity(itemCombo.getQuantity());
-			child.setModCode("");
+			child.setModCode("0");
 			child.setModDesc(itemCombo.getItemDesc());
 			child.setUnitPrice("0");
 			tblCombo.addView(new ModifierRow(view.getContext(), child,
@@ -99,5 +99,29 @@ public class FragmenTab extends Fragment {
 			}
 		}
 		return msg;
+	}
+	
+	public ArrayList<Item> getItemsFromModifier() {
+		ArrayList<Item> items = new ArrayList<Item>();
+		int n = tblCombo.getChildCount();
+		for (int i = 0; i < n; i++) {
+			ModifierRow row = (ModifierRow) tblCombo.getChildAt(i);
+			if(row.getValue() != 0) {
+				ItemModifier iModifier = row.getItemModifier();
+				Item itemChild= new Item();
+				itemChild.setItemCode(iModifier.getItemCode());
+				itemChild.setItemType("M");
+				itemChild.setItemName("*" + iModifier.getModDesc());
+				itemChild.setQty(String.valueOf(row.getValue()));
+				itemChild.setMasterCode(item.getItemCode());
+				itemChild.setOrgPrice(iModifier.getUnitPrice());
+				itemChild.setModifier(iModifier.getModCode());
+				itemChild.setHidden(itemCombo.getHidden());
+				itemChild.setComboPack(itemCombo.getModClass());
+				items.add(itemChild);
+			}
+		}
+		
+		return items;
 	}
 }

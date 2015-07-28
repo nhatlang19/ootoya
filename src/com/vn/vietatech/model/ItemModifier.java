@@ -6,6 +6,13 @@ public class ItemModifier {
 	private String ModCode;
 	private String ModDesc;
 	private String UnitPrice;
+	public ItemModifier() {
+		ItemCode = "";
+		Quantity = "0";
+		ModCode = "0";
+		ModDesc = "";
+		UnitPrice = "0";
+	}
 
 	public String getItemCode() {
 		return ItemCode;

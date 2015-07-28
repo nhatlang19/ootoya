@@ -19,17 +19,26 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 public class TableOrder extends TableLayout {
-	private String[] headers = new String[] { "Q", "P", "ItemName", "Price",
-			"Total", "ItemType", "ItemCode", "Instruction", "ModifierInt",
-			"MasterCode", "ComboClass", "Hidden" };
+	private String[] headers = new String[] { 
+			"Q", "P", "Name", "O.price", "P.price",
+			"Total", "Type", "ItemCode", "Instruction", "Modifier",
+			"MasterCode", "Combo", "Hidden", "SegNo", "p.Code", 
+			"p.Class", "p.PkgPrice", "p.PkgQty", "p.PkgItems", "p.Blanket"
+			};
 
-	private Integer[] headerWidth = new Integer[] { 80, 60, 300, 200, 200, 200,
-			200, 200, 200, 230, 230, 200 };
+	private Integer[] headerWidth = new Integer[] { 
+			80, 60, 330, 150, 150, 
+			150, 120, 180, 200, 170, 
+			230, 150, 180, 150, 180, 
+			180, 180, 180, 200, 180
+			};
 
-	private Integer[] headerGravity = new Integer[] { Gravity.CENTER,
-			Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER,
-			Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.CENTER,
-			Gravity.CENTER, Gravity.CENTER, Gravity.CENTER };
+	private Integer[] headerGravity = new Integer[] { 
+			Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, 
+			Gravity.CENTER,	Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.CENTER,
+			Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.LEFT, 
+			Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, 
+			};
 
 	private MyTable table;
 
@@ -77,11 +86,13 @@ public class TableOrder extends TableLayout {
 	public boolean createNewRow(Item item) {
 		ArrayList<ItemRow> listRow = table.getBody().getAllRows();
 		int index = -1;
-		for (int i = listRow.size() - 1; i >= 0; i--) {
-			ItemRow row = listRow.get(i);
-			if (row.getCurrentItem().getItemCode().equals(item.getItemCode())) {
-				index = i;
-				break;
+		if(!item.getItemType().equals("C") && item.getItemType().equals("M")) {
+			for (int i = listRow.size() - 1; i >= 0; i--) {
+				ItemRow row = listRow.get(i);
+				if (row.getCurrentItem().getItemCode().equals(item.getItemCode())) {
+					index = i;
+					break;
+				}
 			}
 		}
 		if (index != -1) {
@@ -207,7 +218,7 @@ public class TableOrder extends TableLayout {
 			TextView txtQ = (TextView) getColumnByRow(i, "Q");
 			int q = Integer.parseInt(txtQ.getText().toString());
 
-			TextView txtPrice = (TextView) getColumnByRow(i, "Price");
+			TextView txtPrice = (TextView) getColumnByRow(i, "O.price");
 			TextView txtTotal = (TextView) getColumnByRow(i, "Total");
 			int t = Integer.parseInt(txtPrice.getText().toString()) * q;
 			txtTotal.setText(String.valueOf(t));

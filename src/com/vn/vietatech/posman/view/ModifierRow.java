@@ -25,6 +25,10 @@ public class ModifierRow extends TableRow {
 	private EditText editText;
 	private ItemCombo itemCombo;
 	private boolean setDefaultValue;
+	
+	public ItemModifier getItemModifier() {
+		return itemModifier;
+	}
 
 	public ModifierRow(Context context, ItemModifier itemModifier,
 			ItemCombo itemCombo, boolean setDefaultValue) {
@@ -110,6 +114,13 @@ public class ModifierRow extends TableRow {
 	}
 
 	public int getValue() {
-		return Integer.parseInt(editText.getText().toString());
+		String value = editText.getText().toString();
+		if(value.isEmpty()) {
+			if(setDefaultValue) {
+				return itemCombo.getMaxQuantity();
+			}
+			return 0;
+		}
+		return Integer.parseInt(value);
 	}
 }

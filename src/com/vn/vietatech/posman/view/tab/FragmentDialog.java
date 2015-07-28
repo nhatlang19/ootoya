@@ -3,6 +3,7 @@ package com.vn.vietatech.posman.view.tab;
 import java.util.ArrayList;
 
 import com.vn.vietatech.model.Item;
+import com.vn.vietatech.posman.POSMenuActivity;
 import com.vn.vietatech.posman.R;
 import com.vn.vietatech.utils.Utils;
 
@@ -12,9 +13,11 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
@@ -35,19 +38,20 @@ public class FragmentDialog extends DialogFragment {
 	private TextView lbTitleCombo;
 	private int numberOfTab;
 	private Item item;
-	
+	private PagerTitleStrip titlePager;
+
 	private ArrayList<FragmenTab> tabs;
-	
+
 	public FragmentDialog() {
 		super();
-		
+
 		this.numberOfTab = 1;
 		this.item = new Item();
 		this.tabs = new ArrayList<FragmenTab>();
 	}
-	
+
 	public FragmentDialog(Item item) {
-		
+
 		this.numberOfTab = item.getItemCombo().size();
 		this.item = item;
 		this.tabs = new ArrayList<FragmenTab>();
@@ -65,7 +69,7 @@ public class FragmentDialog extends DialogFragment {
 		// ColorDrawable(Color.YELLOW));
 		dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT);
-		
+
 		return dialog;
 	}
 
@@ -73,7 +77,6 @@ public class FragmentDialog extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_dialog, container);
-
 		// tab slider
 		sectionsPagerAdapter = new SectionsPagerAdapter(
 				getChildFragmentManager());
@@ -81,16 +84,21 @@ public class FragmentDialog extends DialogFragment {
 		// Set up the ViewPager with the sections adapter.
 		viewPager = (ViewPager) view.findViewById(R.id.pager);
 		viewPager.setAdapter(sectionsPagerAdapter);
+		// load data all tab
+		viewPager.setOffscreenPageLimit(numberOfTab);
 
 		btnCloseCombo = (Button) view.findViewById(R.id.btnCloseCombo);
 		lbTitleCombo = (TextView) view.findViewById(R.id.lbTitleCombo);
-		lbTitleCombo.setText(item.getNumberClick() + " x " + item.getItemName().trim());
-		
+		lbTitleCombo.setText(item.getNumberClick() + " x "
+				+ item.getItemName().trim());
+
 		registerEvents();
 		return view;
 	}
 
+
 	private void registerEvents() {
+
 		btnCloseCombo.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -98,19 +106,31 @@ public class FragmentDialog extends DialogFragment {
 				boolean valid = true;
 				for (FragmenTab fragmenTab : tabs) {
 					String msg = fragmenTab.isValid();
-					if(!msg.isEmpty()) {
+					if (!msg.isEmpty()) {
 						Utils.showAlert(getActivity(), msg);
 						valid = false;
 						break;
 					}
 				}
-				
-				if(valid) {
-					
+
+				if (valid) {
+					addItem();
 					dismiss();
 				}
 			}
 		});
+	}
+
+	private void addItem() {
+		POSMenuActivity activity = (POSMenuActivity) this.getActivity();
+		activity.addItem(item);
+
+		for (FragmenTab fragmenTab : tabs) {
+			ArrayList<Item> items = fragmenTab.getItemsFromModifier();
+			for (Item itemChild : items) {
+				activity.addItem(itemChild);
+			}
+		}
 	}
 
 	// ------------------------------------------------------------------------
