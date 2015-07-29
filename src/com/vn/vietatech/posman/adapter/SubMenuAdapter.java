@@ -108,7 +108,7 @@ public class SubMenuAdapter extends BaseAdapter {
 						activity.addItem(item);
 					} else if(comboPack.equals("C")) {
 						ArrayList<ItemCombo> itemComboList = new ItemComboAPI(mContext).getItemComboComboBySubMenuSelected(item.getItemCode());
-						item.setItemCombo(itemComboList);;
+						item.setItemCombo(itemComboList);
 						subMenu.setItem(item);
 						activity.onOpenDialogCombo(item);
 					}

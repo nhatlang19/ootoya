@@ -54,6 +54,7 @@ public class FragmentDialog extends DialogFragment {
 
 		this.numberOfTab = item.getItemCombo().size();
 		this.item = item;
+		this.item.setQty(String.valueOf(item.getNumberClick()));
 		this.tabs = new ArrayList<FragmenTab>();
 	}
 

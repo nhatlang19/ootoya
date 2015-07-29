@@ -63,8 +63,8 @@ public class POSMenuActivity extends ActionBarActivity {
 	LinearLayout ll_main, MTLayout, parentView;
 	ScrollView vBody;
 	TableOrder tblOrder;
-	Button btnIPlus, btnIR, btnISub;
-	Button btnIx;
+	public Button btnIPlus, btnIx, btnISub;
+	Button btnIR;
 	Button btnMT;
 	Button btnSend;
 	Button btnX;
@@ -207,8 +207,11 @@ public class POSMenuActivity extends ActionBarActivity {
 
 			@Override
 			public void onClick(View v) {
-				tblOrder.sub();
+				boolean delete = tblOrder.sub();
 				txtMoney.setText(tblOrder.getAllTotal());
+				if(delete) {
+					updateTitle();
+				}
 			}
 		});
 
@@ -219,6 +222,7 @@ public class POSMenuActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				tblOrder.removeRow();
 				txtMoney.setText(tblOrder.getAllTotal());
+				updateTitle();
 			}
 		});
 
@@ -342,9 +346,14 @@ public class POSMenuActivity extends ActionBarActivity {
 				try {
 					int VAT = Integer.parseInt(SettingUtil.read(context).getVat());
 					int price = Utils.parseStringToInt(txtMoney.getText().toString());
-					int newPrice =  price + (int)(price  * (float) (VAT / 100.0));
+					int priceVAT = (int)(price  * (float) (VAT / 100.0));
+					int newPrice =  price + priceVAT;
 					String truePrice = String.valueOf(Utils.formatPrice(newPrice));
-					Utils.showAlert(context, "TOTAL BILL AFTER TAX " + truePrice + ".");
+					String text = String.format("\t\t\tbefore VAT: %s VND\n\t\t\t            VAT: %s VND"
+							+ "\n\t\t\t------------------------------------------"
+							+ "\n\t\t\t            Total: %s VND"
+							, txtMoney.getText().toString(), Utils.formatPrice(priceVAT), truePrice);
+					Utils.showAlert(context, text);
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -383,7 +392,7 @@ public class POSMenuActivity extends ActionBarActivity {
 				    }
 				});
 			}
-
+			updateTitle();
 			txtMoney.setText(tblOrder.getAllTotal());
 		} catch (Exception e) {
 			Toast.makeText(getApplicationContext(), e.getMessage(),
@@ -417,7 +426,7 @@ public class POSMenuActivity extends ActionBarActivity {
 	/**
 	 * update Form title
 	 */
-	private void updateTitle() {
+	public void updateTitle() {
 		String table = tableNo.trim();
 		if(tableGroupNo.trim().length() != 0) {
 			table += "/" + tableGroupNo.trim();

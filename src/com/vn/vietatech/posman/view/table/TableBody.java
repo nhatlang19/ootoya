@@ -50,7 +50,7 @@ public class TableBody extends TableLayout {
 	}
 	
 	public ItemRow getRowIndex(int index) {
-		if (index >= 0) {
+		if (index >= 0 && index < listRow.size()) {
 			return listRow.get(index);
 		}
 		return null;
@@ -103,6 +103,11 @@ public class TableBody extends TableLayout {
 			newRow.setLayoutParams(new TableLayout.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 			newRow.setPadding(0, 5, 0, 5);
+			
+			final POSMenuActivity act = (POSMenuActivity)mContext;
+			act.btnIPlus.setEnabled(false);
+			act.btnISub.setEnabled(false);
+			act.btnIx.setEnabled(false);
 			newRow.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -110,19 +115,29 @@ public class TableBody extends TableLayout {
 					clearBgRow();
 
 					newRow.setBackgroundColor(Color.parseColor("#edf0fe"));
-
+					Item item = newRow.getCurrentItem();
+					if(!item.getPrintStatus().equals(Item.STATUS_OLD)
+							&& !item.getPrintStatus().equals(Item.STATUS_CANCEL)) {
+						act.btnIPlus.setEnabled(true);
+						act.btnISub.setEnabled(true);
+						act.btnIx.setEnabled(true);
+						
+						if (item.getItemType().equals("C")
+								|| item.getItemType().equals("M")) {
+							act.btnIPlus.setEnabled(false);
+							act.btnISub.setEnabled(false);
+						}
+					}
 					for (int i = listRow.size() - 1; i >= 0; i--) {
 						ItemRow row = listRow.get(i);
 						if (row.getId() == newRow.getId()) {
 							setCurrentIndex(i);
 							
 							// load remarks
-							POSMenuActivity act = (POSMenuActivity)mContext;
 							act.loadRemarks(row.getCurrentItem());
 							break;
 						}
 					}
-					
 				}
 			});
 

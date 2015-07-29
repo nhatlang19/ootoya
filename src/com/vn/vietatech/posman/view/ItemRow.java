@@ -45,8 +45,14 @@ public class ItemRow extends TableRow {
 		TextView txtPPrice = createColumn(currentItem.getPromoPrice(), tblHeader, "P.price");
 		this.addView(txtPPrice);
 		// total
-		int total = Integer.parseInt(currentItem.getQty())
-				* Integer.parseInt(currentItem.getOrgPrice());
+		int total;
+		if(!currentItem.getOnPromotion().equals("Y")) {
+			total = Integer.parseInt(currentItem.getQty())
+					* Integer.parseInt(currentItem.getOrgPrice());
+		} else {
+			total = Integer.parseInt(currentItem.getQty())
+					* Integer.parseInt(currentItem.getPromoPrice());
+		}
 		currentItem.setTotal(String.valueOf(total));
 		TextView txtTotal = createColumn(currentItem.getTotal(), tblHeader, "Total");
 		this.addView(txtTotal);
@@ -73,6 +79,7 @@ public class ItemRow extends TableRow {
 		this.addView(txtHidden);
 		// SegNo
 		TextView txtSegNo = createColumn(String.valueOf(segNo), tblHeader, "SegNo");
+		currentItem.setSegNo(String.valueOf(segNo));
 		this.addView(txtSegNo);
 		// p.Code
 		TextView txtCode = createColumn(currentItem.getPromoCode(), tblHeader, "p.Code");

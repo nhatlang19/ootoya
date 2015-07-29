@@ -48,7 +48,6 @@ public class OrderAPI extends AbstractAPI {
 						.getProperty(i);
 
 				Item item = new Item();
-				item.setId(tableObject.getProperty("OrderNo").toString());
 				item.setQty(tableObject.getProperty("Qty").toString());
 				item.setSplited(tableObject.getProperty("Splited").toString());
 				item.setPrintStatus(tableObject.getProperty("Status").toString());
@@ -63,7 +62,15 @@ public class OrderAPI extends AbstractAPI {
 				if(tableObject.hasProperty("Instruction")) {
 					item.setInstruction(tableObject.getProperty("Instruction").toString());
 				}
-
+				item.setPromoPrice(tableObject.getProperty("PromoPrice").toString());
+				item.setTotal(tableObject.getProperty("TotAmt").toString());
+				item.setSegNo(tableObject.getProperty("SeqNo").toString());
+				item.setPromoCode(tableObject.getProperty("PromoCode").toString());
+				item.setPromoClass(tableObject.getProperty("PromoClass").toString());
+				item.setPkgPrice(tableObject.getProperty("PkgPrice").toString());
+				item.setPkgQty(tableObject.getProperty("PkgQty").toString());
+				item.setPkgItems(tableObject.getProperty("PkgItems").toString());
+				item.setBlanket(tableObject.getProperty("Blanket").toString());
 				items.add(item);
 			}
 		}

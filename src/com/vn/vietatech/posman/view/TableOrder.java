@@ -19,26 +19,21 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 public class TableOrder extends TableLayout {
-	private String[] headers = new String[] { 
-			"Q", "P", "Name", "O.price", "P.price",
-			"Total", "Type", "ItemCode", "Instruction", "Modifier",
-			"MasterCode", "Combo", "Hidden", "SegNo", "p.Code", 
-			"p.Class", "p.PkgPrice", "p.PkgQty", "p.PkgItems", "p.Blanket"
-			};
+	private String[] headers = new String[] { "Q", "P", "Name", "O.price",
+			"P.price", "Total", "Type", "ItemCode", "Instruction", "Modifier",
+			"MasterCode", "Combo", "Hidden", "SegNo", "p.Code", "p.Class",
+			"p.PkgPrice", "p.PkgQty", "p.PkgItems", "p.Blanket" };
 
-	private Integer[] headerWidth = new Integer[] { 
-			80, 60, 330, 150, 150, 
-			150, 120, 180, 200, 170, 
-			230, 150, 180, 150, 180, 
-			180, 180, 180, 200, 180
-			};
+	private Integer[] headerWidth = new Integer[] { 80, 60, 330, 150, 150, 150,
+			120, 180, 200, 170, 230, 150, 180, 150, 180, 180, 180, 180, 200,
+			180 };
 
-	private Integer[] headerGravity = new Integer[] { 
-			Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, 
-			Gravity.CENTER,	Gravity.LEFT, Gravity.CENTER, Gravity.CENTER, Gravity.CENTER,
-			Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.LEFT, Gravity.LEFT, 
-			Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, 
-			};
+	private Integer[] headerGravity = new Integer[] { Gravity.CENTER,
+			Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER,
+			Gravity.CENTER, Gravity.LEFT, Gravity.CENTER, Gravity.CENTER,
+			Gravity.CENTER, Gravity.CENTER, Gravity.CENTER, Gravity.CENTER,
+			Gravity.LEFT, Gravity.LEFT, Gravity.LEFT, Gravity.LEFT,
+			Gravity.LEFT, Gravity.LEFT, Gravity.LEFT };
 
 	private MyTable table;
 
@@ -78,6 +73,10 @@ public class TableOrder extends TableLayout {
 	public ItemRow getCurrentRow() {
 		return table.getBody().getCurrentRow();
 	}
+	
+	public int getCurrentIndex() {
+		return table.getBody().getCurrentIndex();
+	}
 
 	public ItemRow getRowIndex(int index) {
 		return table.getBody().getRowIndex(index);
@@ -86,10 +85,11 @@ public class TableOrder extends TableLayout {
 	public boolean createNewRow(Item item) {
 		ArrayList<ItemRow> listRow = table.getBody().getAllRows();
 		int index = -1;
-		if(!item.getItemType().equals("C") && item.getItemType().equals("M")) {
+		if (!item.getItemType().equals("C") && !item.getItemType().equals("M")) {
 			for (int i = listRow.size() - 1; i >= 0; i--) {
 				ItemRow row = listRow.get(i);
-				if (row.getCurrentItem().getItemCode().equals(item.getItemCode())) {
+				if (row.getCurrentItem().getItemCode()
+						.equals(item.getItemCode())) {
 					index = i;
 					break;
 				}
@@ -122,53 +122,82 @@ public class TableOrder extends TableLayout {
 		return true;
 	}
 
-	public void sub() {
+	public boolean sub() {
+		boolean delete = false;
 		TextView txtStatus = (TextView) getColumnCurrentRow("P");
 		if (txtStatus != null && !txtStatus.getText().equals(Item.STATUS_OLD)
 				&& !txtStatus.getText().equals(Item.STATUS_CANCEL)) {
-			TextView txtQty = (TextView) getColumnCurrentRow("Q");
-			if (txtQty != null) {
-				int qty = Integer.parseInt(txtQty.getText().toString());
-				if (qty - 1 <= 0) {
-					ItemRow row = getCurrentRow();
-					if (row != null) {
-						table.getBody().removeView(row);
+			TextView txtItemCode = (TextView) getColumnCurrentRow("Type");
+			if (txtItemCode != null && (txtItemCode.getText().equals("N")
+					|| txtItemCode.getText().equals("R"))) {
+				TextView txtQty = (TextView) getColumnCurrentRow("Q");
+				if (txtQty != null) {
+					int qty = Integer.parseInt(txtQty.getText().toString());
+					if (qty - 1 <= 0) {
+						ItemRow row = getCurrentRow();
+						if (row != null) {
+							table.getBody().removeView(row);
+							delete = true;
+						}
+					} else {
+						String sQty = (qty - 1) + "";
+						txtQty.setText(sQty);
+						getCurrentRow().getCurrentItem().setQty(sQty);
 					}
-				} else {
-					String sQty = (qty - 1) + "";
-					txtQty.setText(sQty);
-					getCurrentRow().getCurrentItem().setQty(sQty);
 				}
 			}
 		}
+		return delete;
 	}
 
 	public void plus() {
 		TextView txtStatus = (TextView) getColumnCurrentRow("P");
 		if (txtStatus != null && !txtStatus.getText().equals(Item.STATUS_OLD)
 				&& !txtStatus.getText().equals(Item.STATUS_CANCEL)) {
-			TextView txtQty = (TextView) getColumnCurrentRow("Q");
-			if (txtQty != null) {
-				int qty = Integer.parseInt(txtQty.getText().toString());
-				String sQty = (qty + 1) + "";
-				txtQty.setText(sQty);
+			TextView txtItemCode = (TextView) getColumnCurrentRow("Type");
+			if (txtItemCode != null && (txtItemCode.getText().equals("N")
+				|| txtItemCode.getText().equals("R"))) {
+				TextView txtQty = (TextView) getColumnCurrentRow("Q");
+				if (txtQty != null) {
+					int qty = Integer.parseInt(txtQty.getText().toString());
+					String sQty = (qty + 1) + "";
+					txtQty.setText(sQty);
 
-				getCurrentRow().getCurrentItem().setQty(sQty);
+					getCurrentRow().getCurrentItem().setQty(sQty);
+				}
 			}
 		}
 	}
 
 	public void removeRow() {
 		TextView txtStatus = (TextView) getColumnCurrentRow("P");
+		TextView txtItemCode = (TextView) getColumnCurrentRow("Type");
 		if (txtStatus != null && !txtStatus.getText().equals(Item.STATUS_OLD)
 				&& !txtStatus.getText().equals(Item.STATUS_CANCEL)) {
-			ItemRow row = getCurrentRow();
-			if (row != null) {
-				table.getBody().removeView(row);
+			int currentIndex = getCurrentIndex();
+			ItemRow currentRow = getRowIndex(currentIndex);
+			// remove current row
+			if (currentRow != null) {
+				table.getBody().removeView(currentRow);
+			}
+			if (txtItemCode != null && txtItemCode.getText().equals("C")) {
+				do {
+					ItemRow row = getRowIndex(currentIndex);
+					if (row != null) {
+						Item item = row.getCurrentItem();
+						if(item.getItemType().toString().equals("M")) {
+							table.getBody().removeView(row);
+						} else {
+							break;
+						}
+					} else {
+						break;
+					}
+				} while(true);
 			}
 		}
 	}
-	
+
 	public String getRemark(Remark selectedRemark) {
 		TextView txtStatus = (TextView) getColumnCurrentRow("P");
 		String instruction = null;
@@ -215,12 +244,21 @@ public class TableOrder extends TableLayout {
 
 		int total = 0;
 		for (int i = listRow.size() - 1; i >= 0; i--) {
+			ItemRow itemRow = listRow.get(i);
+			Item itemData = itemRow.getCurrentItem();
+
 			TextView txtQ = (TextView) getColumnByRow(i, "Q");
 			int q = Integer.parseInt(txtQ.getText().toString());
-
+			String promotion = itemData.getOnPromotion();
 			TextView txtPrice = (TextView) getColumnByRow(i, "O.price");
+			TextView txtPromoPrice = (TextView) getColumnByRow(i, "P.price");
 			TextView txtTotal = (TextView) getColumnByRow(i, "Total");
-			int t = Integer.parseInt(txtPrice.getText().toString()) * q;
+			int t;
+			if (!promotion.equals("Y")) {
+				t = Integer.parseInt(txtPrice.getText().toString()) * q;
+			} else {
+				t = Integer.parseInt(txtPromoPrice.getText().toString()) * q;
+			}
 			txtTotal.setText(String.valueOf(t));
 
 			getRowIndex(i).getCurrentItem().setTotal(String.valueOf(t));

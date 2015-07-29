@@ -35,11 +35,11 @@ public class Item {
 	private ArrayList<ItemCombo> itemCombo;
 	private ArrayList<ItemModifier> itemModifiers;
 	private int numberClick;
-	
+
 	private static final String SEPARATE = "|";
 	public static final String STATUS_OLD = "#";
 	public static final String STATUS_CANCEL = "C";
-	
+
 	public Item() {
 		id = " ";
 		qty = "1";
@@ -56,6 +56,7 @@ public class Item {
 		comboPack = " ";
 		hidden = " ";
 		instruction = " ";
+		onPromotion = "N";
 		setRemarks(new ArrayList<Remark>());
 		setItemCombo(new ArrayList<ItemCombo>());
 		setItemModifiers(new ArrayList<ItemModifier>());
@@ -73,11 +74,11 @@ public class Item {
 		blanket = "";
 		setNumberClick(0);
 	}
-	
+
 	public String getId() {
 		return id;
 	}
-	
+
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -87,7 +88,7 @@ public class Item {
 	}
 
 	public void setInstruction(String instruction) {
-		if(instruction.contains("anyType{}")) {
+		if (instruction.contains("anyType{}")) {
 			instruction = " ";
 		}
 		this.instruction = instruction;
@@ -155,7 +156,7 @@ public class Item {
 
 	public void setOrgPrice(String orgPrice) {
 		float iorgPrice = Float.parseFloat(orgPrice);
-		this.orgPrice = String.valueOf((int)iorgPrice);
+		this.orgPrice = String.valueOf((int) iorgPrice);
 	}
 
 	public String getItemName() {
@@ -167,9 +168,9 @@ public class Item {
 	}
 
 	public String getPrintStatus() {
-		if(printStatus.trim().isEmpty()) {
+		if (printStatus.trim().isEmpty()) {
 			return printStatus;
-		} else if(printStatus.equals("9")) {
+		} else if (printStatus.equals("9")) {
 			printStatus = STATUS_CANCEL;
 		} else {
 			printStatus = STATUS_OLD;
@@ -197,24 +198,6 @@ public class Item {
 		this.remarks = remarks;
 	}
 
-	@Override
-	public String toString() {
-		String result = "";
-		result += qty + SEPARATE;
-		result += printStatus + SEPARATE;
-		result += itemName + SEPARATE;
-		result += orgPrice + SEPARATE;
-		result += total + SEPARATE;
-		result += itemType + SEPARATE;
-		result += itemCode + SEPARATE;
-		result += modifierInt + SEPARATE;
-		result += masterCode + SEPARATE;
-		result += comboPack + SEPARATE;
-		result += hidden + SEPARATE;
-		result += instruction;
-		return result;
-	}
-
 	public String getSplited() {
 		return splited;
 	}
@@ -229,7 +212,7 @@ public class Item {
 
 	public void setPromoPrice(String promoPrice) {
 		float ipromoPrice = Float.parseFloat(promoPrice);
-		this.promoPrice = String.valueOf((int)ipromoPrice);
+		this.promoPrice = String.valueOf((int) ipromoPrice);
 	}
 
 	public String getOnPromotion() {
@@ -358,6 +341,36 @@ public class Item {
 
 	public void setPkgPrice(String pkgPrice) {
 		float ipkgPrice = Float.parseFloat(pkgPrice);
-		this.pkgPrice = String.valueOf((int)ipkgPrice);
+		this.pkgPrice = String.valueOf((int) ipkgPrice);
+	}
+
+	@Override
+	public String toString() {
+		String result = "";
+		result += qty + SEPARATE;
+		result += printStatus + SEPARATE;
+		if (!itemType.equals("M")) {
+			result += itemName + SEPARATE;
+		} else {
+			result += "*" + itemName + SEPARATE;
+		}
+		result += orgPrice + SEPARATE;
+		result += promoPrice + SEPARATE;
+		result += total + SEPARATE;
+		result += itemType + SEPARATE;
+		result += itemCode + SEPARATE;
+		result += modifierInt + SEPARATE;
+		result += masterCode + SEPARATE;
+		result += comboPack + SEPARATE;
+		result += hidden + SEPARATE;
+		result += instruction + SEPARATE;
+		result += segNo + SEPARATE;
+		result += promoCode + SEPARATE;
+		result += promoClass + SEPARATE;
+		result += pkgPrice + SEPARATE;
+		result += pkgQty + SEPARATE;
+		result += pkgItems + SEPARATE;
+		result += blanket;
+		return result;
 	}
 }
