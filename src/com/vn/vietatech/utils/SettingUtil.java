@@ -10,7 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.vn.vietatech.model.Setting;
-import com.vn.vietatech.posman.R;
+import com.vn.vietatech.combo.R;
 
 public class SettingUtil {
 	private static String FILENAME = "POSinit";

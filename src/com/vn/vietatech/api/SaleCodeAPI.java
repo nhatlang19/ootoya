@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.ksoap2.serialization.SoapObject;
 
+import com.vn.vietatech.combo.MyApplication;
 import com.vn.vietatech.model.SalesCode;
-import com.vn.vietatech.posman.MyApplication;
 
 import android.content.Context;
 

@@ -10,7 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.vn.vietatech.model.Cashier;
-import com.vn.vietatech.posman.R;
+import com.vn.vietatech.combo.R;
 
 public class UserUtil {
 	private static String FILENAME = "NearUser";

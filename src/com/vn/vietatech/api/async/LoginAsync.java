@@ -10,12 +10,12 @@ import com.vn.vietatech.api.PosMenuAPI;
 import com.vn.vietatech.api.SaleCodeAPI;
 import com.vn.vietatech.api.TableAPI;
 import com.vn.vietatech.api.UserApi;
+import com.vn.vietatech.combo.MainActivity;
+import com.vn.vietatech.combo.MyApplication;
+import com.vn.vietatech.combo.TableActivity;
+import com.vn.vietatech.combo.dialog.TransparentProgressDialog;
 import com.vn.vietatech.model.Cashier;
-import com.vn.vietatech.posman.MainActivity;
-import com.vn.vietatech.posman.MyApplication;
-import com.vn.vietatech.posman.R;
-import com.vn.vietatech.posman.TableActivity;
-import com.vn.vietatech.posman.dialog.TransparentProgressDialog;
+import com.vn.vietatech.combo.R;
 import com.vn.vietatech.utils.UserUtil;
 
 public class LoginAsync extends AsyncTask<String, String, Cashier> {

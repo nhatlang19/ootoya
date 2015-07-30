@@ -1,6 +1,6 @@
 package com.vn.vietatech.model;
 
-import com.vn.vietatech.posman.R;
+import com.vn.vietatech.combo.R;
 
 public class Table {
 	private String tableNo;

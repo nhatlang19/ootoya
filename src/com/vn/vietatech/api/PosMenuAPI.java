@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 import org.ksoap2.serialization.SoapObject;
 
+import com.vn.vietatech.combo.MyApplication;
 import com.vn.vietatech.model.PosMenu;
 import com.vn.vietatech.model.Setting;
 import com.vn.vietatech.model.SubMenu;
-import com.vn.vietatech.posman.MyApplication;
 import com.vn.vietatech.utils.SettingUtil;
 
 import android.content.Context;
