@@ -73,6 +73,7 @@ public class Item {
 		pkgItems = "0";
 		blanket = "";
 		setNumberClick(0);
+		segNo = "0";
 	}
 
 	public String getId() {

@@ -21,7 +21,6 @@ import com.vn.vietatech.combo.view.tab.FragmentDialog;
 import com.vn.vietatech.model.Item;
 import com.vn.vietatech.model.PosMenu;
 import com.vn.vietatech.model.Remark;
-import com.vn.vietatech.model.SubMenu;
 import com.vn.vietatech.model.Table;
 import com.vn.vietatech.combo.R;
 import com.vn.vietatech.utils.SettingUtil;
@@ -89,7 +88,7 @@ public class POSMenuActivity extends ActionBarActivity {
 	String splited = "0";
 	Spinner spinTableListMT;
 	Remark selectedRemark;
-	
+
 	public String getPriceLevel() {
 		return priceLevel;
 	}
@@ -100,17 +99,17 @@ public class POSMenuActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_posmenu);
 
 		initControl();
-		
+
 		// load table list to move
 		new TableMoveAsync(context).execute();
-		
+
 		loadEvent();
 
 		try {
 			boolean result = new AbstractAPI(this).isKitFolderExist();
 			if (!result) {
 				result = new AbstractAPI(this).createKitFolder();
-				if(! result) {
+				if (!result) {
 					Utils.showAlert(this, "Can not create kit folder");
 				}
 			}
@@ -130,7 +129,7 @@ public class POSMenuActivity extends ActionBarActivity {
 		setResult(RESULT_OK, intent);
 		super.onBackPressed();
 	}
-	
+
 	private void initControl() {
 		globalVariable = (MyApplication) getApplicationContext();
 		// get table infor
@@ -144,7 +143,6 @@ public class POSMenuActivity extends ActionBarActivity {
 				TableActivity.KEY_SELECTED_SCODE);
 		priceLevel = getIntent().getExtras().getString(
 				TableActivity.KEY_PRICE_LEVEL);
-		
 
 		horizontalView = (HorizontalScrollView) findViewById(R.id.horizontalView);
 		parentView = (LinearLayout) findViewById(R.id.parentView);
@@ -172,7 +170,7 @@ public class POSMenuActivity extends ActionBarActivity {
 		ll_main.addView(tblOrder.getTable().getHeader(), 0);
 		vBody.addView(tblOrder.getTable().getBody());
 	}
-	
+
 	private void loadEvent() {
 		spinRemark.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -181,8 +179,9 @@ public class POSMenuActivity extends ActionBarActivity {
 					int position, long id) {
 				selectedRemark = (Remark) parent.getItemAtPosition(position);
 				String instruction = tblOrder.getRemark(selectedRemark);
-				if(txtRemark.getText().toString().trim().isEmpty() 
-						|| (instruction != null && !instruction.trim().isEmpty())) {
+				if (txtRemark.getText().toString().trim().isEmpty()
+						|| (instruction != null && !instruction.trim()
+								.isEmpty())) {
 					txtRemark.setText(instruction);
 				}
 			}
@@ -210,7 +209,7 @@ public class POSMenuActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				boolean delete = tblOrder.sub();
 				txtMoney.setText(tblOrder.getAllTotal());
-				if(delete) {
+				if (delete) {
 					updateTitle();
 				}
 			}
@@ -233,12 +232,11 @@ public class POSMenuActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				tblOrder.insertRemark(txtRemark.getText().toString());
-				
+
 				txtRemark.setFocusable(false);
 				txtRemark.setFocusableInTouchMode(false);
-				
-				InputMethodManager imm = (InputMethodManager)getSystemService(
-				      Context.INPUT_METHOD_SERVICE);
+
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(txtRemark.getWindowToken(), 0);
 			}
 		});
@@ -255,25 +253,30 @@ public class POSMenuActivity extends ActionBarActivity {
 		btnSend.setOnClickListener(new OnClickListener() {
 			String sendNewOrder = "0";
 			String reSendOrder = "0";
-			
+
 			@Override
 			public void onClick(View v) {
 				final String status = tblOrder.checkStatus(tableStatus);
-				if(status == null || status.equals(TableOrder.STATUS_DATATABLE_SEND_ALL)) {
+				if (status == null
+						|| status.equals(TableOrder.STATUS_DATATABLE_SEND_ALL)) {
 					sendNewOrder = "1";
-					new TableSendOrderAsync(context).execute(sendNewOrder, reSendOrder);
+					new TableSendOrderAsync(context).execute(sendNewOrder,
+							reSendOrder);
 				} else {
-					if(status.equals(TableOrder.STATUS_DATATABLE_NO_DATA)) {
+					if (status.equals(TableOrder.STATUS_DATATABLE_NO_DATA)) {
 						Utils.showAlert(context, status);
-					} else if(status.equals(TableOrder.STATUS_DATATABLE_RESEND)) {
+					} else if (status
+							.equals(TableOrder.STATUS_DATATABLE_RESEND)) {
 						new DialogConfirm(context, status) {
 							public void run() {
 								reSendOrder = "1";
-								new TableSendOrderAsync(context).execute(sendNewOrder, reSendOrder);
+								new TableSendOrderAsync(context).execute(
+										sendNewOrder, reSendOrder);
 							}
-							
+
 							public void no() {
-								new TableSendOrderAsync(context).execute(sendNewOrder, reSendOrder);
+								new TableSendOrderAsync(context).execute(
+										sendNewOrder, reSendOrder);
 							}
 						};
 					}
@@ -317,17 +320,17 @@ public class POSMenuActivity extends ActionBarActivity {
 				}
 			}
 		});
-		
+
 		// txtRemark click
 		txtRemark.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				v.setFocusable(true);
-		        v.setFocusableInTouchMode(true);
+				v.setFocusableInTouchMode(true);
 				return false;
 			}
 		});
-		
+
 		// txtPeople click
 		txtPeople.setClickable(true);
 		txtPeople.setOnClickListener(new OnClickListener() {
@@ -337,7 +340,7 @@ public class POSMenuActivity extends ActionBarActivity {
 				loadPickerDialog();
 			}
 		});
-		
+
 		// txtMoney click
 		txtMoney.setClickable(true);
 		txtMoney.setOnClickListener(new OnClickListener() {
@@ -345,15 +348,20 @@ public class POSMenuActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				try {
-					int VAT = Integer.parseInt(SettingUtil.read(context).getVat());
-					int price = Utils.parseStringToInt(txtMoney.getText().toString());
-					int priceVAT = (int)(price  * (float) (VAT / 100.0));
-					int newPrice =  price + priceVAT;
-					String truePrice = String.valueOf(Utils.formatPrice(newPrice));
-					String text = String.format("\t\t\tbefore VAT: %s VND\n\t\t\t            VAT: %s VND"
-							+ "\n\t\t\t------------------------------------------"
-							+ "\n\t\t\t            Total: %s VND"
-							, txtMoney.getText().toString(), Utils.formatPrice(priceVAT), truePrice);
+					int VAT = Integer.parseInt(SettingUtil.read(context)
+							.getVat());
+					int price = Utils.parseStringToInt(txtMoney.getText()
+							.toString());
+					int priceVAT = (int) (price * (float) (VAT / 100.0));
+					int newPrice = price + priceVAT;
+					String truePrice = String.valueOf(Utils
+							.formatPrice(newPrice));
+					String text = String
+							.format("\t\t\tbefore VAT: %s VND\n\t\t\t            VAT: %s VND"
+									+ "\n\t\t\t------------------------------------------"
+									+ "\n\t\t\t            Total: %s VND",
+									txtMoney.getText().toString(),
+									Utils.formatPrice(priceVAT), truePrice);
 					Utils.showAlert(context, text);
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
@@ -362,11 +370,10 @@ public class POSMenuActivity extends ActionBarActivity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 		});
-		
-		
+
 	}
 
 	public void loadSubMenu(PosMenu selectedPOSMenu) {
@@ -376,21 +383,23 @@ public class POSMenuActivity extends ActionBarActivity {
 
 	public void addItem(Item item) {
 		try {
-			if(tblOrder.createNewRow(item)) {
-				vBody.post(new Runnable() {            
-				    @Override
-				    public void run() {
-				    	vBody.fullScroll(View.FOCUS_DOWN);  // scroll to bottom            
-				    }
+			if (tblOrder.createNewRow(item)) {
+				vBody.post(new Runnable() {
+					@Override
+					public void run() {
+						vBody.fullScroll(View.FOCUS_DOWN); // scroll to bottom
+					}
 				});
 			} else {
-				vBody.post(new Runnable() {   
+				vBody.post(new Runnable() {
 					ItemRow itemRow = tblOrder.getCurrentRow();
-					
-				    @Override
-				    public void run() {
-				    	vBody.smoothScrollTo(0, itemRow.getTop());  // scroll to current row            
-				    }
+
+					@Override
+					public void run() {
+						vBody.smoothScrollTo(0, itemRow.getTop()); // scroll to
+																	// current
+																	// row
+					}
 				});
 			}
 			updateTitle();
@@ -405,6 +414,7 @@ public class POSMenuActivity extends ActionBarActivity {
 	 * load Items
 	 * 
 	 * load all item rows
+	 * 
 	 * @throws Exception
 	 */
 	private void loadItems() throws Exception {
@@ -413,12 +423,13 @@ public class POSMenuActivity extends ActionBarActivity {
 		} else {
 			// get order number
 			currentPosNo = SettingUtil.read(context).getPosId();
-			int orderNo = new OrderAPI(context).getNewOrderNumberByPOS(currentPosNo);
+			int orderNo = new OrderAPI(context)
+					.getNewOrderNumberByPOS(currentPosNo);
 			currentOrderNo = String.valueOf(orderNo);
 			// open form set people
 			txtPeople.performClick();
 			updateTitle();
-			
+
 			btnMT.setEnabled(false);
 			btnMT.setTextColor(Color.GRAY);
 		}
@@ -429,7 +440,7 @@ public class POSMenuActivity extends ActionBarActivity {
 	 */
 	public void updateTitle() {
 		String table = tableNo.trim();
-		if(tableGroupNo.trim().length() != 0) {
+		if (tableGroupNo.trim().length() != 0) {
 			table += "/" + tableGroupNo.trim();
 		}
 		setTitle(table + " (" + tblOrder.getAllRows().size() + ")-"
@@ -473,28 +484,33 @@ public class POSMenuActivity extends ActionBarActivity {
 		alertD.show();
 	}
 
-	//##### ZONE MOVE TABLE #####///
+	// ##### ZONE MOVE TABLE #####///
 	private void restoreGrid() {
-		gridMainMenu.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 300));
-		gridSubMenu.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-		MTLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 0));
+		gridMainMenu.setLayoutParams(new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, 300));
+		gridSubMenu.setLayoutParams(new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		MTLayout.setLayoutParams(new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, 0));
 	}
-	
+
 	private void loadMoveTableForm() {
 		MTLayout.setLayoutParams(new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, 200));
 		gridMainMenu.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
 		gridSubMenu.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
-		
+
 		Button btnOkMT = (Button) findViewById(R.id.btnOkMT);
 		Button btnCancelMT = (Button) findViewById(R.id.btnCancelMT);
 		btnOkMT.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Table table = (Table) spinTableListMT.getItemAtPosition(spinTableListMT.getSelectedItemPosition());
+				Table table = (Table) spinTableListMT
+						.getItemAtPosition(spinTableListMT
+								.getSelectedItemPosition());
 				String moveTable = table.getTableNo();
-				
+
 				if (moveTable.isEmpty() || moveTable.equals(tableNo)) {
 					Utils.showAlert(context, "This is current table");
 					return;
@@ -513,31 +529,45 @@ public class POSMenuActivity extends ActionBarActivity {
 						switch (status) {
 						case "O":
 							if (openBy.isEmpty()) {
-								Utils.showAlert(context, "Table " + moveTable + " is having guests");
+								Utils.showAlert(context, "Table " + moveTable
+										+ " is having guests");
 							} else {
-								Utils.showAlert(context, "Table " + moveTable + " is having guests and editting by cashier ("
+								Utils.showAlert(
+										context,
+										"Table "
+												+ moveTable
+												+ " is having guests and editting by cashier ("
 												+ openBy + ")");
 							}
 							break;
 						case "A":
 							String posNo = SettingUtil.read(context).getPosId();
-							if(new TableAPI(context).moveTable(tableNo, moveTable, tableGroupNo.trim(), posNo, currentOrderNo)) {
+							if (new TableAPI(context).moveTable(tableNo,
+									moveTable, tableGroupNo.trim(), posNo,
+									currentOrderNo)) {
 								String oldTableNo = tableNo;
 								tableNo = moveTable;
 								updateTitle();
 								restoreGrid();
-								
-								Utils.showAlert(context, "Successfull move table " + oldTableNo.trim() + " to " + moveTable.trim());
+
+								Utils.showAlert(
+										context,
+										"Successfull move table "
+												+ oldTableNo.trim() + " to "
+												+ moveTable.trim());
 							} else {
-								Utils.showAlert(context, "Table " + moveTable + " is having guests");
+								Utils.showAlert(context, "Table " + moveTable
+										+ " is having guests");
 							}
 							break;
 						}
 					} else {
-						Toast.makeText(context, "Can not move table",Toast.LENGTH_SHORT).show();
+						Toast.makeText(context, "Can not move table",
+								Toast.LENGTH_SHORT).show();
 					}
 				} catch (Exception e) {
-					Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT)
+							.show();
 				}
 			}
 		});
@@ -550,7 +580,7 @@ public class POSMenuActivity extends ActionBarActivity {
 			}
 		});
 	}
-	
+
 	public void loadLayoutMoveTable() {
 		// layout move table
 		GradientDrawable drawable = new GradientDrawable();
@@ -558,38 +588,41 @@ public class POSMenuActivity extends ActionBarActivity {
 		drawable.setStroke(2, Color.BLACK);
 		drawable.setColor(Color.parseColor("#dddddd"));
 		MTLayout.setBackgroundDrawable(drawable);
-		
+
 		ArrayList<Table> tableList = globalVariable.getTables();
 		if (tableList != null) {
 			TableListAdapter tableListAdapter = new TableListAdapter(context,
 					android.R.layout.simple_spinner_item, tableList);
-			
+
 			spinTableListMT.setAdapter(tableListAdapter);
 		}
 	}
-	//##### ZONE MOVE TABLE #####///
-	
+
+	// ##### ZONE MOVE TABLE #####///
+
 	public void backForm() {
 		Intent intent = new Intent();
 		intent.putExtra(TableActivity.KEY_REFRESH_CODE, 1);
-		intent.putExtra(TableActivity.KEY_SELECTED_TABLE,
-				tableNo);
+		intent.putExtra(TableActivity.KEY_SELECTED_TABLE, tableNo);
 		setResult(RESULT_OK, intent);
 		finish();
 	}
 
 	/**
 	 * using in background
+	 * 
 	 * @param result
 	 * @throws Exception
 	 */
 	public void addRowByOrder() throws Exception {
-		currentOrderNo = getIntent().getExtras().getString(TableActivity.KEY_ORD);
+		currentOrderNo = getIntent().getExtras().getString(
+				TableActivity.KEY_ORD);
 		currentExtNo = getIntent().getExtras().getString(TableActivity.KEY_EXT);
 		currentPosNo = getIntent().getExtras().getString(TableActivity.KEY_POS);
 		currentPerNo = getIntent().getExtras().getString(TableActivity.KEY_PER);
-		currentSalesCode = getIntent().getExtras().getString(TableActivity.KEY_SCODE);
-		
+		currentSalesCode = getIntent().getExtras().getString(
+				TableActivity.KEY_SCODE);
+
 		ArrayList<Item> items = new OrderAPI(context).getEditOrderNumberByPOS(
 				currentOrderNo, currentPosNo, currentExtNo);
 		for (Item item : items) {
@@ -610,15 +643,18 @@ public class POSMenuActivity extends ActionBarActivity {
 		RemarkAdapter remarkAdapter = new RemarkAdapter(context,
 				android.R.layout.simple_spinner_item, item);
 		spinRemark.setAdapter(remarkAdapter);
-		spinRemark.setBackgroundResource(R.drawable.spinner_background_remark_with_data);
-		
+		spinRemark
+				.setBackgroundResource(R.drawable.spinner_background_remark_with_data);
+
 		txtRemark.setText(item.getInstruction());
 	}
-	
-	public boolean sendOrder(String sendNewOrder, String reSendOrder) throws Exception {
+
+	public boolean sendOrder(String sendNewOrder, String reSendOrder)
+			throws Exception {
 		try {
 			String dataTableString = tblOrder.toString();
-			String typeLoad = tableStatus.equals(Table.ACTION_EDIT) ? "EditOrder" : "NewOrder";
+			String typeLoad = tableStatus.equals(Table.ACTION_EDIT) ? "EditOrder"
+					: "NewOrder";
 			String posNo = currentPosNo;
 			String orderNo = currentOrderNo;
 			String extNo = currentExtNo;
@@ -626,20 +662,26 @@ public class POSMenuActivity extends ActionBarActivity {
 			String POSBizDate = Utils.getCurrentDate("yyyyMMdd");
 			String currTableGroup = tableGroupNo;
 			String noOfPerson = txtPeople.getText().toString();
-			String salesCode = tableStatus.equals(Table.ACTION_EDIT) ? currentSalesCode : selectedSalesCode;
+			String salesCode = tableStatus.equals(Table.ACTION_EDIT) ? currentSalesCode
+					: selectedSalesCode;
 			String cashierID = globalVariable.getCashier().getId();
-			
-			return new PosMenuAPI(context).sendOrder(dataTableString, sendNewOrder, reSendOrder
-					, typeLoad, posNo, orderNo, extNo, currTable, POSBizDate, currTableGroup
-					, splited, noOfPerson, salesCode, cashierID);
+
+			return new PosMenuAPI(context).sendOrder(dataTableString,
+					sendNewOrder, reSendOrder, typeLoad, posNo, orderNo, extNo,
+					currTable, POSBizDate, currTableGroup, splited, noOfPerson,
+					salesCode, cashierID);
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
 	}
-	
+
 	public void onOpenDialogCombo(Item item) {
 		FragmentManager fm = getSupportFragmentManager();
-	    FragmentDialog overlay = new FragmentDialog(item);
-	    overlay.show(fm, "FragmentDialog");
+		FragmentDialog overlay = new FragmentDialog(item);
+		overlay.show(fm, "FragmentDialog");
+	}
+	
+	public TableOrder getTableOrder() {
+		return tblOrder;
 	}
 }

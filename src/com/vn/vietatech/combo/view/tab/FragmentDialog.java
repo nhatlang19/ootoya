@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.vn.vietatech.combo.POSMenuActivity;
 import com.vn.vietatech.model.Item;
 import com.vn.vietatech.combo.R;
+import com.vn.vietatech.combo.view.TableOrder;
 import com.vn.vietatech.utils.Utils;
 
 import android.app.Dialog;
@@ -125,12 +126,15 @@ public class FragmentDialog extends DialogFragment {
 	private void addItem() {
 		POSMenuActivity activity = (POSMenuActivity) this.getActivity();
 		activity.addItem(item);
-
+		
+		int segNo = activity.getTableOrder().getSegNo();
 		for (FragmenTab fragmenTab : tabs) {
 			ArrayList<Item> items = fragmenTab.getItemsFromModifier();
 			for (Item itemChild : items) {
+				itemChild.setSegNo(String.valueOf(segNo));
 				activity.addItem(itemChild);
 			}
+			segNo = segNo + 1;
 		}
 	}
 

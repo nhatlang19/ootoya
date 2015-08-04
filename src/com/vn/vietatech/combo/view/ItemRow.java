@@ -78,8 +78,15 @@ public class ItemRow extends TableRow {
 		TextView txtHidden = createColumn(currentItem.getHidden(), tblHeader, "Hidden");
 		this.addView(txtHidden);
 		// SegNo
-		TextView txtSegNo = createColumn(String.valueOf(segNo), tblHeader, "SegNo");
-		currentItem.setSegNo(String.valueOf(segNo));
+		
+		int segNoItem = Integer.parseInt(currentItem.getSegNo());
+		TextView txtSegNo = null;
+		if(segNoItem == 0) {
+			txtSegNo = createColumn(String.valueOf(segNo), tblHeader, "SegNo");
+			currentItem.setSegNo(String.valueOf(segNo));
+		} else {
+			txtSegNo = createColumn(currentItem.getSegNo(), tblHeader, "SegNo");
+		}
 		this.addView(txtSegNo);
 		// p.Code
 		TextView txtCode = createColumn(currentItem.getPromoCode(), tblHeader, "p.Code");

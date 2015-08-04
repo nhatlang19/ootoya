@@ -65,6 +65,10 @@ public class TableOrder extends TableLayout {
 		}
 		return data;
 	}
+	
+	public int getSegNo() {
+		return table.getBody().getSegNo();
+	}
 
 	public ArrayList<ItemRow> getAllRows() {
 		return table.getBody().getAllRows();

@@ -18,6 +18,7 @@ public class TableBody extends TableLayout {
 	private ArrayList<ItemRow> listRow = new ArrayList<ItemRow>();
 	private int currentIndex = -1;
 	private ArrayList<Integer> listKey = new ArrayList<Integer>();
+	private int segNo = 1;
 	
 	public TableBody(Context context, TableHeader header) {
 		super(context);
@@ -40,6 +41,10 @@ public class TableBody extends TableLayout {
 		}
 		
 		setCurrentIndex(-1);
+	}
+	
+	public int getSegNo() {
+		return segNo;
 	}
 	
 	public ItemRow getCurrentRow() {
@@ -98,7 +103,12 @@ public class TableBody extends TableLayout {
 		if (item != null) {
 			// add new row
 			final ItemRow newRow = new ItemRow(mContext);
-			newRow.addAllColumns(item, tblHeader, listRow.size() + 1);
+			int segNoItem = Integer.parseInt(item.getSegNo());
+			boolean isZero = segNoItem == 0;
+			newRow.addAllColumns(item, tblHeader, segNo);
+			if(isZero) {
+				segNo++;
+			}
 			newRow.setId(listKey.size());
 			newRow.setLayoutParams(new TableLayout.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
