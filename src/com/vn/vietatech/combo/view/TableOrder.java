@@ -242,7 +242,7 @@ public class TableOrder extends TableLayout {
 	public Object getColumnByRow(int index, String name) {
 		return table.getBody().getColumnByRow(index, name);
 	}
-
+	
 	public String getAllTotal() {
 		ArrayList<ItemRow> listRow = table.getBody().getAllRows();
 

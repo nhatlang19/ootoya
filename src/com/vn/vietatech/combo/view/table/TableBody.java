@@ -11,6 +11,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TableLayout;
+import android.widget.TextView;
 
 public class TableBody extends TableLayout {
 	private TableHeader tblHeader;
@@ -19,10 +20,10 @@ public class TableBody extends TableLayout {
 	private int currentIndex = -1;
 	private ArrayList<Integer> listKey = new ArrayList<Integer>();
 	private int segNo = 1;
-	
+
 	public TableBody(Context context, TableHeader header) {
 		super(context);
-		
+
 		tblHeader = header;
 		mContext = context;
 	}
@@ -30,7 +31,7 @@ public class TableBody extends TableLayout {
 	public ArrayList<ItemRow> getAllRows() {
 		return listRow;
 	}
-	
+
 	public void removeRow(ItemRow deletedRow) {
 		for (int i = listRow.size() - 1; i >= 0; i--) {
 			ItemRow row = listRow.get(i);
@@ -42,25 +43,29 @@ public class TableBody extends TableLayout {
 		
 		setCurrentIndex(-1);
 	}
-	
+
 	public int getSegNo() {
 		return segNo;
 	}
-	
+
+	public void setSegNo(int segNo) {
+		this.segNo = segNo;
+	}
+
 	public ItemRow getCurrentRow() {
 		if (currentIndex != -1) {
 			return listRow.get(currentIndex);
 		}
 		return null;
 	}
-	
+
 	public ItemRow getRowIndex(int index) {
 		if (index >= 0 && index < listRow.size()) {
 			return listRow.get(index);
 		}
 		return null;
 	}
-	
+
 	public Object getColumnCurrentRow(String name) {
 		int index = tblHeader.getColumnIndex(name);
 		if (index != -1 && currentIndex != -1) {
@@ -68,7 +73,7 @@ public class TableBody extends TableLayout {
 		}
 		return null;
 	}
-	
+
 	public Object getColumnByRow(int index, String name) {
 		int indexCol = tblHeader.getColumnIndex(name);
 		if (indexCol != -1 && index >= 0) {
@@ -76,21 +81,43 @@ public class TableBody extends TableLayout {
 		}
 		return null;
 	}
-	
+
 	public void clearBgRow() {
 		for (ItemRow row : listRow) {
 			row.setBackgroundColor(Color.parseColor("#ffffff"));
 		}
 	}
-	
+
 	@Override
 	public void removeView(View view) {
 		super.removeView(view);
 
 		ItemRow deletedRow = (ItemRow) view;
 		this.removeRow(deletedRow);
+		reupdateSegNo();
 	}
-	
+
+	public void reupdateSegNo() {
+		int prev = 0;
+		int tmpSegNo = 0;
+		ArrayList<ItemRow> listRow = getAllRows();
+		int size = listRow.size();
+		for (int i = 0; i < size; i++) {
+			TextView txtSegNo = (TextView) getColumnByRow(i, "SegNo");
+			int segNo = Integer.parseInt(txtSegNo.getText().toString());
+			if (prev != segNo) {
+				tmpSegNo++;
+			}
+			txtSegNo.setText(tmpSegNo + "");
+			getRowIndex(i).getCurrentItem().setSegNo(tmpSegNo + "");
+
+			prev = segNo;
+		}
+
+		// update current segNo
+		setSegNo(tmpSegNo + 1);
+	}
+
 	public int getCurrentIndex() {
 		return currentIndex;
 	}
@@ -98,7 +125,7 @@ public class TableBody extends TableLayout {
 	public void setCurrentIndex(int currentIndex) {
 		this.currentIndex = currentIndex;
 	}
-	
+
 	public void addRow(final Item item) {
 		if (item != null) {
 			// add new row
@@ -106,15 +133,22 @@ public class TableBody extends TableLayout {
 			int segNoItem = Integer.parseInt(item.getSegNo());
 			boolean isZero = segNoItem == 0;
 			newRow.addAllColumns(item, tblHeader, segNo);
-			if(isZero) {
+			
+			if (isZero) {
 				segNo++;
+			} else {
+				if(segNoItem != segNo) {
+					segNo = segNoItem + 1;
+				} else {
+					segNo = segNoItem;
+				}
 			}
 			newRow.setId(listKey.size());
 			newRow.setLayoutParams(new TableLayout.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 			newRow.setPadding(0, 5, 0, 5);
-			
-			final POSMenuActivity act = (POSMenuActivity)mContext;
+
+			final POSMenuActivity act = (POSMenuActivity) mContext;
 			act.btnIPlus.setEnabled(false);
 			act.btnISub.setEnabled(false);
 			act.btnIx.setEnabled(false);
@@ -126,12 +160,13 @@ public class TableBody extends TableLayout {
 
 					newRow.setBackgroundColor(Color.parseColor("#edf0fe"));
 					Item item = newRow.getCurrentItem();
-					if(!item.getPrintStatus().equals(Item.STATUS_OLD)
-							&& !item.getPrintStatus().equals(Item.STATUS_CANCEL)) {
+					if (!item.getPrintStatus().equals(Item.STATUS_OLD)
+							&& !item.getPrintStatus()
+									.equals(Item.STATUS_CANCEL)) {
 						act.btnIPlus.setEnabled(true);
 						act.btnISub.setEnabled(true);
 						act.btnIx.setEnabled(true);
-						
+
 						if (item.getItemType().equals("C")
 								|| item.getItemType().equals("M")) {
 							act.btnIPlus.setEnabled(false);
@@ -142,7 +177,7 @@ public class TableBody extends TableLayout {
 						ItemRow row = listRow.get(i);
 						if (row.getId() == newRow.getId()) {
 							setCurrentIndex(i);
-							
+
 							// load remarks
 							act.loadRemarks(row.getCurrentItem());
 							break;
