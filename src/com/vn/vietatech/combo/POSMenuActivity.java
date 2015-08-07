@@ -653,6 +653,7 @@ public class POSMenuActivity extends ActionBarActivity {
 			throws Exception {
 		try {
 			String dataTableString = tblOrder.toString();
+			System.out.println(dataTableString);
 			String typeLoad = tableStatus.equals(Table.ACTION_EDIT) ? "EditOrder"
 					: "NewOrder";
 			String posNo = currentPosNo;

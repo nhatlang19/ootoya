@@ -40,7 +40,7 @@ public class TableBody extends TableLayout {
 				break;
 			}
 		}
-		
+
 		setCurrentIndex(-1);
 	}
 
@@ -133,16 +133,21 @@ public class TableBody extends TableLayout {
 			int segNoItem = Integer.parseInt(item.getSegNo());
 			boolean isZero = segNoItem == 0;
 			newRow.addAllColumns(item, tblHeader, segNo);
-			
-			if (isZero) {
-				segNo++;
-			} else {
-				if(segNoItem != segNo) {
-					segNo = segNoItem + 1;
+
+			if (item.isNewItem()) {
+				if (isZero) {
+					segNo++;
 				} else {
-					segNo = segNoItem;
+					if (segNoItem != segNo) {
+						segNo = segNoItem + 1;
+					} else {
+						segNo = segNoItem;
+					}
 				}
+			} else {
+				segNo = segNoItem + 1;
 			}
+
 			newRow.setId(listKey.size());
 			newRow.setLayoutParams(new TableLayout.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));

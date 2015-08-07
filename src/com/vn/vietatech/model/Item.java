@@ -178,6 +178,10 @@ public class Item {
 		}
 		return printStatus;
 	}
+	
+	public boolean isNewItem() {
+		return ! (getPrintStatus().equals(STATUS_CANCEL) || getPrintStatus().equals(STATUS_OLD) ); 
+	}
 
 	public void setPrintStatus(String printStatus) {
 		this.printStatus = printStatus;
@@ -350,11 +354,7 @@ public class Item {
 		String result = "";
 		result += qty + SEPARATE;
 		result += printStatus + SEPARATE;
-		if (!itemType.equals("M")) {
-			result += itemName + SEPARATE;
-		} else {
-			result += "*" + itemName + SEPARATE;
-		}
+		result += itemName + SEPARATE;
 		result += orgPrice + SEPARATE;
 		result += promoPrice + SEPARATE;
 		result += total + SEPARATE;
