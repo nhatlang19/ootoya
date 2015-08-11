@@ -8,7 +8,9 @@ import com.vn.vietatech.combo.POSMenuActivity;
 import com.vn.vietatech.model.Item;
 import com.vn.vietatech.model.ItemCombo;
 import com.vn.vietatech.model.PosMenu;
+import com.vn.vietatech.model.Setting;
 import com.vn.vietatech.model.SubMenu;
+import com.vn.vietatech.utils.SettingUtil;
 import com.vn.vietatech.utils.Utils;
 
 import android.content.Context;
@@ -55,8 +57,14 @@ public class SubmenuButton extends Button {
 		handler = new Handler();
 		runnable = new Runnable() {
 			public void run() {
+				
 				POSMenuActivity activity = (POSMenuActivity) mContext;
 				try {
+					Setting setting = SettingUtil.read(mContext);
+					if(!setting.getType().equals("1")) {
+						numberClick = 1;
+					}
+					
 					Item item = new ItemAPI(mContext).getItemBySubMenuSelected(subMenu.getDefaultValue(), activity.getPriceLevel(), String.valueOf(numberClick));
 					String comboPack = item.getComboPack();
 					item.setItemType(comboPack);

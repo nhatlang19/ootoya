@@ -1,7 +1,11 @@
 package com.vn.vietatech.combo.view;
 
+import java.io.IOException;
+
 import com.vn.vietatech.model.ItemCombo;
 import com.vn.vietatech.model.ItemModifier;
+import com.vn.vietatech.model.Setting;
+import com.vn.vietatech.utils.SettingUtil;
 import com.vn.vietatech.combo.R;
 
 import android.app.AlertDialog;
@@ -69,7 +73,25 @@ public class ModifierRow extends TableRow {
 
 			@Override
 			public void onClick(View v) {
-				loadPickerDialog();
+				
+				Setting setting;
+				try {
+					setting = SettingUtil.read(mContext);
+					if(!setting.getType().equals("1")) {
+						int val = Integer.parseInt(editText.getText().toString());
+						if(val == 0) {
+							val = 1;
+						} else {
+							val = 0;
+						}
+						editText.setText(val + "");
+					} else {
+						loadPickerDialog();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
 			}
 		});
 		this.addView(editText);

@@ -6,10 +6,12 @@ public class Setting {
 	private String _posGroup;
 	private String _posId;
 	private String _vat;
+	private String type;
 
 	public Setting() {
 		_serverIP = "";
 		_vat = "1";
+		type = "1";
 	}
 
 	public String getServerIP() {
@@ -50,5 +52,13 @@ public class Setting {
 
 	public void setVat(String _vat) {
 		this._vat = _vat;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }
